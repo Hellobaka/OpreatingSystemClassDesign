@@ -50,6 +50,9 @@ namespace OpreatingSystemClassDesign
             this.PageFaultTime_TextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.OtherSettings_GroupBox = new System.Windows.Forms.GroupBox();
+            this.AddressMaxTrack = new System.Windows.Forms.TrackBar();
+            this.AddressMax_TextBox = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
             this.GenerateLogicAddress = new System.Windows.Forms.CheckBox();
             this.GeneratorNumTarck = new System.Windows.Forms.TrackBar();
             this.label10 = new System.Windows.Forms.Label();
@@ -84,6 +87,7 @@ namespace OpreatingSystemClassDesign
             ((System.ComponentModel.ISupportInitialize)(this.MemoryTrack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PageFaultTrack)).BeginInit();
             this.OtherSettings_GroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AddressMaxTrack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GeneratorNumTarck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MemoryBlockTrack)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -295,6 +299,9 @@ namespace OpreatingSystemClassDesign
             // 
             // OtherSettings_GroupBox
             // 
+            this.OtherSettings_GroupBox.Controls.Add(this.AddressMaxTrack);
+            this.OtherSettings_GroupBox.Controls.Add(this.AddressMax_TextBox);
+            this.OtherSettings_GroupBox.Controls.Add(this.label18);
             this.OtherSettings_GroupBox.Controls.Add(this.GenerateLogicAddress);
             this.OtherSettings_GroupBox.Controls.Add(this.GeneratorNumTarck);
             this.OtherSettings_GroupBox.Controls.Add(this.label10);
@@ -309,15 +316,49 @@ namespace OpreatingSystemClassDesign
             this.OtherSettings_GroupBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.OtherSettings_GroupBox.Name = "OtherSettings_GroupBox";
             this.OtherSettings_GroupBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.OtherSettings_GroupBox.Size = new System.Drawing.Size(432, 160);
+            this.OtherSettings_GroupBox.Size = new System.Drawing.Size(432, 203);
             this.OtherSettings_GroupBox.TabIndex = 12;
             this.OtherSettings_GroupBox.TabStop = false;
             this.OtherSettings_GroupBox.Text = "杂项设定";
             // 
+            // AddressMaxTrack
+            // 
+            this.AddressMaxTrack.Location = new System.Drawing.Point(172, 117);
+            this.AddressMaxTrack.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.AddressMaxTrack.Maximum = 65535;
+            this.AddressMaxTrack.Minimum = 4096;
+            this.AddressMaxTrack.Name = "AddressMaxTrack";
+            this.AddressMaxTrack.Size = new System.Drawing.Size(253, 45);
+            this.AddressMaxTrack.SmallChange = 160;
+            this.AddressMaxTrack.TabIndex = 12;
+            this.AddressMaxTrack.TickFrequency = 50;
+            this.AddressMaxTrack.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.AddressMaxTrack.Value = 65535;
+            this.AddressMaxTrack.Scroll += new System.EventHandler(this.PageFaultTrack_Scroll);
+            // 
+            // AddressMax_TextBox
+            // 
+            this.AddressMax_TextBox.Location = new System.Drawing.Point(101, 118);
+            this.AddressMax_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.AddressMax_TextBox.Name = "AddressMax_TextBox";
+            this.AddressMax_TextBox.Size = new System.Drawing.Size(61, 23);
+            this.AddressMax_TextBox.TabIndex = 10;
+            this.AddressMax_TextBox.Text = "FFFF";
+            this.AddressMax_TextBox.TextChanged += new System.EventHandler(this.PageFaultTime_TextChanged);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(8, 124);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(92, 17);
+            this.label18.TabIndex = 9;
+            this.label18.Text = "生成地址最大值";
+            // 
             // GenerateLogicAddress
             // 
             this.GenerateLogicAddress.AutoSize = true;
-            this.GenerateLogicAddress.Location = new System.Drawing.Point(11, 119);
+            this.GenerateLogicAddress.Location = new System.Drawing.Point(10, 166);
             this.GenerateLogicAddress.Name = "GenerateLogicAddress";
             this.GenerateLogicAddress.Size = new System.Drawing.Size(123, 21);
             this.GenerateLogicAddress.TabIndex = 8;
@@ -505,11 +546,11 @@ namespace OpreatingSystemClassDesign
             this.ThreadSwitch_GroupBox.Controls.Add(this.FIFO_Pause);
             this.ThreadSwitch_GroupBox.Controls.Add(this.FIFO_Start);
             this.ThreadSwitch_GroupBox.Controls.Add(this.label9);
-            this.ThreadSwitch_GroupBox.Location = new System.Drawing.Point(1001, 369);
+            this.ThreadSwitch_GroupBox.Location = new System.Drawing.Point(1001, 398);
             this.ThreadSwitch_GroupBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ThreadSwitch_GroupBox.Name = "ThreadSwitch_GroupBox";
             this.ThreadSwitch_GroupBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ThreadSwitch_GroupBox.Size = new System.Drawing.Size(425, 478);
+            this.ThreadSwitch_GroupBox.Size = new System.Drawing.Size(425, 449);
             this.ThreadSwitch_GroupBox.TabIndex = 14;
             this.ThreadSwitch_GroupBox.TabStop = false;
             this.ThreadSwitch_GroupBox.Text = "线程开关";
@@ -658,6 +699,7 @@ namespace OpreatingSystemClassDesign
             ((System.ComponentModel.ISupportInitialize)(this.PageFaultTrack)).EndInit();
             this.OtherSettings_GroupBox.ResumeLayout(false);
             this.OtherSettings_GroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.AddressMaxTrack)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GeneratorNumTarck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MemoryBlockTrack)).EndInit();
             this.groupBox4.ResumeLayout(false);
@@ -719,5 +761,8 @@ namespace OpreatingSystemClassDesign
         private System.Windows.Forms.TextBox MemoryTime_TextBox;
         private System.Windows.Forms.TextBox PageFaultTime_TextBox;
         private System.Windows.Forms.BindingSource mainFormBindingSource;
+        private System.Windows.Forms.TrackBar AddressMaxTrack;
+        private System.Windows.Forms.TextBox AddressMax_TextBox;
+        private System.Windows.Forms.Label label18;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -64,6 +65,10 @@ namespace OpreatingSystemClassDesign
         /// 随机生成序列时生成的个数
         /// </summary>
         public static int GeneratorNum = 5;
+        /// <summary>
+        /// 随机取地址范围上限
+        /// </summary>
+        public static int AddressMax = 0xFFFF;
         #endregion
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -103,10 +108,11 @@ namespace OpreatingSystemClassDesign
             Random rd = new Random();
             for (int i = 0; i < GeneratorNum; i++)
             {
+                int address = rd.Next(0, AddressMax);
                 //生成完整逻辑地址的标志
                 if (GenerateLogicAddress.Checked)
                 {
-                    string tmp = rd.Next(0, 0xFFFF).ToString("X0") + "H";
+                    string tmp = address.ToString("X0") + "H";
                     //补0
                     if (tmp.Length < 5)
                     {
@@ -116,7 +122,7 @@ namespace OpreatingSystemClassDesign
                 }
                 else
                 {
-                    sb.Append(rd.Next(0, 15).ToString("X0"));
+                    sb.Append(Helper.GetPageBlock(address).ToString("X0"));
                 }
                 sb.Append(" ");
             }
@@ -190,6 +196,10 @@ namespace OpreatingSystemClassDesign
                     MemoryBlockNum = tb.Value;
                     MemroyBlockNum_TextBox.Text = tb.Value.ToString();
                     break;
+                case "AddressMaxTrack":
+                    AddressMax = tb.Value;
+                    AddressMax_TextBox.Text = tb.Value.ToString("X2");
+                    break;
             }
         }
         /// <summary>
@@ -225,6 +235,9 @@ namespace OpreatingSystemClassDesign
                     dataGridView_FIFO.Rows.Add("缺页情况");
                     CellsUnselected();
                     break;
+                case "AddressMax_TextBox":
+                    TrackMoveByTextChanged(tb, AddressMaxTrack, Models.MoveMode.None,true);
+                    break;
             }
         }
         /// <summary>
@@ -233,10 +246,15 @@ namespace OpreatingSystemClassDesign
         /// <param name="tb">需要同步的文本框</param>
         /// <param name="tr">需要同步的滑块</param>
         /// <param name="mode">同步方式</param>
-        private void TrackMoveByTextChanged(TextBox tb, TrackBar tr, Models.MoveMode mode)
+        private void TrackMoveByTextChanged(TextBox tb, TrackBar tr, Models.MoveMode mode, bool HexFlag=false)
         {
-            if (int.TryParse(tb.Text, out int value))
+            if (int.TryParse(tb.Text, out int value) || HexFlag)
             {
+                if(!int.TryParse(tb.Text,NumberStyles.HexNumber,null, out value))
+                {
+                    tb.Text = tr.Minimum.ToString();
+                    return;
+                }
                 //未越界
                 if (value <= tr.Maximum && value >= tr.Minimum)
                 {
