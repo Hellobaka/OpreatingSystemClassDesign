@@ -255,13 +255,13 @@ namespace OpreatingSystemClassDesign
             this.PageFaultTrack.Location = new System.Drawing.Point(170, 24);
             this.PageFaultTrack.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.PageFaultTrack.Maximum = 2000;
-            this.PageFaultTrack.Minimum = 500;
+            this.PageFaultTrack.Minimum = 100;
             this.PageFaultTrack.Name = "PageFaultTrack";
             this.PageFaultTrack.Size = new System.Drawing.Size(254, 45);
             this.PageFaultTrack.TabIndex = 3;
             this.PageFaultTrack.TickFrequency = 50;
             this.PageFaultTrack.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.PageFaultTrack.Value = 500;
+            this.PageFaultTrack.Value = 100;
             this.PageFaultTrack.Scroll += new System.EventHandler(this.PageFaultTrack_Scroll);
             // 
             // label3
@@ -280,7 +280,7 @@ namespace OpreatingSystemClassDesign
             this.PageFaultTime_TextBox.Name = "PageFaultTime_TextBox";
             this.PageFaultTime_TextBox.Size = new System.Drawing.Size(38, 23);
             this.PageFaultTime_TextBox.TabIndex = 1;
-            this.PageFaultTime_TextBox.Text = "500";
+            this.PageFaultTime_TextBox.Text = "100";
             this.PageFaultTime_TextBox.TextChanged += new System.EventHandler(this.PageFaultTime_TextChanged);
             this.PageFaultTime_TextBox.Leave += new System.EventHandler(this.PageFaultTime_Leave);
             // 
@@ -484,7 +484,7 @@ namespace OpreatingSystemClassDesign
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dataGridView_FIFO.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView_FIFO.RowTemplate.Height = 23;
-            this.dataGridView_FIFO.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_FIFO.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridView_FIFO.ShowCellToolTips = false;
             this.dataGridView_FIFO.ShowEditingIcon = false;
             this.dataGridView_FIFO.Size = new System.Drawing.Size(967, 167);
@@ -607,6 +607,7 @@ namespace OpreatingSystemClassDesign
             this.FIFO_Pause.TabIndex = 2;
             this.FIFO_Pause.Text = "暂停";
             this.FIFO_Pause.UseVisualStyleBackColor = true;
+            this.FIFO_Pause.Click += new System.EventHandler(this.FIFO_Pause_Click);
             // 
             // FIFO_Start
             // 
