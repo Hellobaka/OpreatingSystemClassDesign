@@ -9,10 +9,10 @@ namespace OpreatingSystemClassDesign
         /// 读取一行地址文本，并转换为int类型数组
         /// </summary>
         /// <returns></returns>
-        public static List<int> ReadAddress()
+        public static List<int> ReadAddress(string input)
         {
             List<int> MemoryAddresses = new List<int>();
-            var str = Console.ReadLine().Split(' ');
+            var str = input.Split(' ');
             for (int i = 0; i < str.Length; i++)
             {
                 str[i] = str[i].Replace("H", "");

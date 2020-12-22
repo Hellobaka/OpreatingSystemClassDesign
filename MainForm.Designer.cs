@@ -29,40 +29,68 @@ namespace OpreatingSystemClassDesign
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.InputText = new System.Windows.Forms.TextBox();
             this.RandomGenerate = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.PageFaultTime = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.PageFaultTrack = new System.Windows.Forms.TrackBar();
-            this.MemoryTrack = new System.Windows.Forms.TrackBar();
-            this.label4 = new System.Windows.Forms.Label();
-            this.MemoryTime = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.TimeSetting_GroupBox = new System.Windows.Forms.GroupBox();
             this.TLBTrack = new System.Windows.Forms.TrackBar();
             this.label6 = new System.Windows.Forms.Label();
-            this.TLBTime = new System.Windows.Forms.TextBox();
+            this.TLBTime_TextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.GeneraterNumTarck = new System.Windows.Forms.TrackBar();
+            this.MemoryTrack = new System.Windows.Forms.TrackBar();
+            this.label4 = new System.Windows.Forms.Label();
+            this.MemoryTime_TextBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.PageFaultTrack = new System.Windows.Forms.TrackBar();
+            this.label3 = new System.Windows.Forms.Label();
+            this.PageFaultTime_TextBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.OtherSettings_GroupBox = new System.Windows.Forms.GroupBox();
+            this.GenerateLogicAddress = new System.Windows.Forms.CheckBox();
+            this.GeneratorNumTarck = new System.Windows.Forms.TrackBar();
             this.label10 = new System.Windows.Forms.Label();
-            this.GeneraterNum = new System.Windows.Forms.TextBox();
+            this.GeneratorNum_TextBox = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.MemoryBlockTrack = new System.Windows.Forms.TrackBar();
             this.label12 = new System.Windows.Forms.Label();
-            this.MemroyBlockNum = new System.Windows.Forms.TextBox();
+            this.MemroyBlockNum_TextBox = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.FIFO_Result = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.panel_FIFO = new System.Windows.Forms.Panel();
+            this.dataGridView_FIFO = new System.Windows.Forms.DataGridView();
+            this.ThreadSwitch_GroupBox = new System.Windows.Forms.GroupBox();
+            this.ALL_Pause = new System.Windows.Forms.Button();
+            this.ALL_Start = new System.Windows.Forms.Button();
+            this.OPT_Pause = new System.Windows.Forms.Button();
+            this.OPT_Start = new System.Windows.Forms.Button();
+            this.LRU_Pause = new System.Windows.Forms.Button();
+            this.LRU_Start = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.FIFO_Pause = new System.Windows.Forms.Button();
+            this.FIFO_Start = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PageFaultTrack)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MemoryTrack)).BeginInit();
+            this.TimeSetting_GroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TLBTrack)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GeneraterNumTarck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MemoryTrack)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PageFaultTrack)).BeginInit();
+            this.OtherSettings_GroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GeneratorNumTarck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MemoryBlockTrack)).BeginInit();
+            this.groupBox4.SuspendLayout();
+            this.panel_FIFO.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_FIFO)).BeginInit();
+            this.ThreadSwitch_GroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -70,150 +98,79 @@ namespace OpreatingSystemClassDesign
             this.groupBox1.Controls.Add(this.InputText);
             this.groupBox1.Controls.Add(this.RandomGenerate);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 3);
+            this.groupBox1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.groupBox1.Location = new System.Drawing.Point(14, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(841, 51);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox1.Size = new System.Drawing.Size(981, 72);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "内容输入";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(125, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "输入序列或内存地址：";
-            // 
             // InputText
             // 
-            this.InputText.Location = new System.Drawing.Point(126, 19);
+            this.InputText.AcceptsReturn = true;
+            this.InputText.Location = new System.Drawing.Point(147, 27);
+            this.InputText.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.InputText.Name = "InputText";
-            this.InputText.Size = new System.Drawing.Size(624, 21);
+            this.InputText.Size = new System.Drawing.Size(727, 23);
             this.InputText.TabIndex = 1;
+            this.InputText.Text = "7 0 1 2 0 3 0 4 2 3 0 3 2 1 2 0 1 7 0 1";
+            this.InputText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputText_KeyPress);
             // 
             // RandomGenerate
             // 
-            this.RandomGenerate.Location = new System.Drawing.Point(754, 17);
+            this.RandomGenerate.Location = new System.Drawing.Point(880, 22);
+            this.RandomGenerate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.RandomGenerate.Name = "RandomGenerate";
-            this.RandomGenerate.Size = new System.Drawing.Size(75, 23);
+            this.RandomGenerate.Size = new System.Drawing.Size(87, 33);
             this.RandomGenerate.TabIndex = 2;
             this.RandomGenerate.Text = "随机生成";
             this.RandomGenerate.UseVisualStyleBackColor = true;
             this.RandomGenerate.Click += new System.EventHandler(this.RandomGenerate_Click);
             // 
-            // groupBox2
+            // label1
             // 
-            this.groupBox2.Controls.Add(this.TLBTrack);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.TLBTime);
-            this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.MemoryTrack);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.MemoryTime);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.PageFaultTrack);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.PageFaultTime);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(859, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(370, 138);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "时间设置";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 31);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(128, 17);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "输入序列或内存地址：";
             // 
-            // label2
+            // TimeSetting_GroupBox
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 22);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "断页时间";
-            // 
-            // PageFaultTime
-            // 
-            this.PageFaultTime.Location = new System.Drawing.Point(98, 17);
-            this.PageFaultTime.Name = "PageFaultTime";
-            this.PageFaultTime.Size = new System.Drawing.Size(33, 21);
-            this.PageFaultTime.TabIndex = 1;
-            this.PageFaultTime.Text = "500";
-            this.PageFaultTime.TextChanged += new System.EventHandler(this.PageFaultTime_TextChanged);
-            this.PageFaultTime.Leave += new System.EventHandler(this.PageFaultTime_Leave);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(137, 22);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(17, 12);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "ms";
-            // 
-            // PageFaultTrack
-            // 
-            this.PageFaultTrack.LargeChange = 100;
-            this.PageFaultTrack.Location = new System.Drawing.Point(159, 17);
-            this.PageFaultTrack.Maximum = 2000;
-            this.PageFaultTrack.Minimum = 500;
-            this.PageFaultTrack.Name = "PageFaultTrack";
-            this.PageFaultTrack.Size = new System.Drawing.Size(205, 45);
-            this.PageFaultTrack.TabIndex = 3;
-            this.PageFaultTrack.TickFrequency = 50;
-            this.PageFaultTrack.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.PageFaultTrack.Value = 500;
-            this.PageFaultTrack.Scroll += new System.EventHandler(this.PageFaultTrack_Scroll);
-            // 
-            // MemoryTrack
-            // 
-            this.MemoryTrack.Location = new System.Drawing.Point(159, 50);
-            this.MemoryTrack.Maximum = 500;
-            this.MemoryTrack.Minimum = 5;
-            this.MemoryTrack.Name = "MemoryTrack";
-            this.MemoryTrack.Size = new System.Drawing.Size(205, 45);
-            this.MemoryTrack.TabIndex = 7;
-            this.MemoryTrack.TickFrequency = 50;
-            this.MemoryTrack.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.MemoryTrack.Value = 5;
-            this.MemoryTrack.Scroll += new System.EventHandler(this.PageFaultTrack_Scroll);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(137, 55);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(17, 12);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "ms";
-            // 
-            // MemoryTime
-            // 
-            this.MemoryTime.Location = new System.Drawing.Point(98, 50);
-            this.MemoryTime.Name = "MemoryTime";
-            this.MemoryTime.Size = new System.Drawing.Size(33, 21);
-            this.MemoryTime.TabIndex = 5;
-            this.MemoryTime.Text = "5";
-            this.MemoryTime.TextChanged += new System.EventHandler(this.PageFaultTime_TextChanged);
-            this.MemoryTime.Leave += new System.EventHandler(this.PageFaultTime_Leave);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 55);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(77, 12);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "内存读取时间";
+            this.TimeSetting_GroupBox.Controls.Add(this.TLBTrack);
+            this.TimeSetting_GroupBox.Controls.Add(this.label6);
+            this.TimeSetting_GroupBox.Controls.Add(this.TLBTime_TextBox);
+            this.TimeSetting_GroupBox.Controls.Add(this.label7);
+            this.TimeSetting_GroupBox.Controls.Add(this.MemoryTrack);
+            this.TimeSetting_GroupBox.Controls.Add(this.label4);
+            this.TimeSetting_GroupBox.Controls.Add(this.MemoryTime_TextBox);
+            this.TimeSetting_GroupBox.Controls.Add(this.label5);
+            this.TimeSetting_GroupBox.Controls.Add(this.PageFaultTrack);
+            this.TimeSetting_GroupBox.Controls.Add(this.label3);
+            this.TimeSetting_GroupBox.Controls.Add(this.PageFaultTime_TextBox);
+            this.TimeSetting_GroupBox.Controls.Add(this.label2);
+            this.TimeSetting_GroupBox.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.TimeSetting_GroupBox.Location = new System.Drawing.Point(1002, 4);
+            this.TimeSetting_GroupBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.TimeSetting_GroupBox.Name = "TimeSetting_GroupBox";
+            this.TimeSetting_GroupBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.TimeSetting_GroupBox.Size = new System.Drawing.Size(432, 175);
+            this.TimeSetting_GroupBox.TabIndex = 1;
+            this.TimeSetting_GroupBox.TabStop = false;
+            this.TimeSetting_GroupBox.Text = "时间设置";
             // 
             // TLBTrack
             // 
-            this.TLBTrack.Location = new System.Drawing.Point(159, 84);
+            this.TLBTrack.Location = new System.Drawing.Point(170, 119);
+            this.TLBTrack.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.TLBTrack.Maximum = 500;
             this.TLBTrack.Minimum = 5;
             this.TLBTrack.Name = "TLBTrack";
-            this.TLBTrack.Size = new System.Drawing.Size(205, 45);
+            this.TLBTrack.Size = new System.Drawing.Size(254, 45);
             this.TLBTrack.TabIndex = 11;
             this.TLBTrack.TickFrequency = 50;
             this.TLBTrack.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -223,96 +180,201 @@ namespace OpreatingSystemClassDesign
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(137, 89);
+            this.label6.Location = new System.Drawing.Point(145, 127);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(17, 12);
+            this.label6.Size = new System.Drawing.Size(25, 17);
             this.label6.TabIndex = 10;
             this.label6.Text = "ms";
             // 
-            // TLBTime
+            // TLBTime_TextBox
             // 
-            this.TLBTime.Location = new System.Drawing.Point(98, 84);
-            this.TLBTime.Name = "TLBTime";
-            this.TLBTime.Size = new System.Drawing.Size(33, 21);
-            this.TLBTime.TabIndex = 9;
-            this.TLBTime.Text = "5";
-            this.TLBTime.TextChanged += new System.EventHandler(this.PageFaultTime_TextChanged);
-            this.TLBTime.Leave += new System.EventHandler(this.PageFaultTime_Leave);
+            this.TLBTime_TextBox.Location = new System.Drawing.Point(99, 120);
+            this.TLBTime_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.TLBTime_TextBox.Name = "TLBTime_TextBox";
+            this.TLBTime_TextBox.Size = new System.Drawing.Size(38, 23);
+            this.TLBTime_TextBox.TabIndex = 9;
+            this.TLBTime_TextBox.Text = "5";
+            this.TLBTime_TextBox.TextChanged += new System.EventHandler(this.PageFaultTime_TextChanged);
+            this.TLBTime_TextBox.Leave += new System.EventHandler(this.PageFaultTime_Leave);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 89);
+            this.label7.Location = new System.Drawing.Point(7, 126);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(77, 12);
+            this.label7.Size = new System.Drawing.Size(80, 17);
             this.label7.TabIndex = 8;
             this.label7.Text = "快表读取时间";
             // 
-            // groupBox3
+            // MemoryTrack
             // 
-            this.groupBox3.Controls.Add(this.GeneraterNumTarck);
-            this.groupBox3.Controls.Add(this.label10);
-            this.groupBox3.Controls.Add(this.GeneraterNum);
-            this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Controls.Add(this.MemoryBlockTrack);
-            this.groupBox3.Controls.Add(this.label12);
-            this.groupBox3.Controls.Add(this.MemroyBlockNum);
-            this.groupBox3.Controls.Add(this.label13);
-            this.groupBox3.Location = new System.Drawing.Point(859, 147);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(370, 97);
-            this.groupBox3.TabIndex = 12;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "杂项设定";
+            this.MemoryTrack.Location = new System.Drawing.Point(170, 71);
+            this.MemoryTrack.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MemoryTrack.Maximum = 500;
+            this.MemoryTrack.Minimum = 5;
+            this.MemoryTrack.Name = "MemoryTrack";
+            this.MemoryTrack.Size = new System.Drawing.Size(254, 45);
+            this.MemoryTrack.TabIndex = 7;
+            this.MemoryTrack.TickFrequency = 50;
+            this.MemoryTrack.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.MemoryTrack.Value = 5;
+            this.MemoryTrack.Scroll += new System.EventHandler(this.PageFaultTrack_Scroll);
             // 
-            // GeneraterNumTarck
+            // label4
             // 
-            this.GeneraterNumTarck.Location = new System.Drawing.Point(159, 50);
-            this.GeneraterNumTarck.Maximum = 50;
-            this.GeneraterNumTarck.Minimum = 5;
-            this.GeneraterNumTarck.Name = "GeneraterNumTarck";
-            this.GeneraterNumTarck.Size = new System.Drawing.Size(205, 45);
-            this.GeneraterNumTarck.TabIndex = 7;
-            this.GeneraterNumTarck.TickFrequency = 50;
-            this.GeneraterNumTarck.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.GeneraterNumTarck.Value = 5;
-            this.GeneraterNumTarck.Scroll += new System.EventHandler(this.PageFaultTrack_Scroll);
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(145, 79);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(25, 17);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "ms";
+            // 
+            // MemoryTime_TextBox
+            // 
+            this.MemoryTime_TextBox.Location = new System.Drawing.Point(99, 72);
+            this.MemoryTime_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MemoryTime_TextBox.Name = "MemoryTime_TextBox";
+            this.MemoryTime_TextBox.Size = new System.Drawing.Size(38, 23);
+            this.MemoryTime_TextBox.TabIndex = 5;
+            this.MemoryTime_TextBox.Text = "5";
+            this.MemoryTime_TextBox.TextChanged += new System.EventHandler(this.PageFaultTime_TextChanged);
+            this.MemoryTime_TextBox.Leave += new System.EventHandler(this.PageFaultTime_Leave);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(7, 78);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(80, 17);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "内存读取时间";
+            // 
+            // PageFaultTrack
+            // 
+            this.PageFaultTrack.LargeChange = 100;
+            this.PageFaultTrack.Location = new System.Drawing.Point(170, 24);
+            this.PageFaultTrack.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.PageFaultTrack.Maximum = 2000;
+            this.PageFaultTrack.Minimum = 500;
+            this.PageFaultTrack.Name = "PageFaultTrack";
+            this.PageFaultTrack.Size = new System.Drawing.Size(254, 45);
+            this.PageFaultTrack.TabIndex = 3;
+            this.PageFaultTrack.TickFrequency = 50;
+            this.PageFaultTrack.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.PageFaultTrack.Value = 500;
+            this.PageFaultTrack.Scroll += new System.EventHandler(this.PageFaultTrack_Scroll);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(145, 32);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(25, 17);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "ms";
+            // 
+            // PageFaultTime_TextBox
+            // 
+            this.PageFaultTime_TextBox.Location = new System.Drawing.Point(99, 25);
+            this.PageFaultTime_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.PageFaultTime_TextBox.Name = "PageFaultTime_TextBox";
+            this.PageFaultTime_TextBox.Size = new System.Drawing.Size(38, 23);
+            this.PageFaultTime_TextBox.TabIndex = 1;
+            this.PageFaultTime_TextBox.Text = "500";
+            this.PageFaultTime_TextBox.TextChanged += new System.EventHandler(this.PageFaultTime_TextChanged);
+            this.PageFaultTime_TextBox.Leave += new System.EventHandler(this.PageFaultTime_Leave);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 31);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(56, 17);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "断页时间";
+            // 
+            // OtherSettings_GroupBox
+            // 
+            this.OtherSettings_GroupBox.Controls.Add(this.GenerateLogicAddress);
+            this.OtherSettings_GroupBox.Controls.Add(this.GeneratorNumTarck);
+            this.OtherSettings_GroupBox.Controls.Add(this.label10);
+            this.OtherSettings_GroupBox.Controls.Add(this.GeneratorNum_TextBox);
+            this.OtherSettings_GroupBox.Controls.Add(this.label11);
+            this.OtherSettings_GroupBox.Controls.Add(this.MemoryBlockTrack);
+            this.OtherSettings_GroupBox.Controls.Add(this.label12);
+            this.OtherSettings_GroupBox.Controls.Add(this.MemroyBlockNum_TextBox);
+            this.OtherSettings_GroupBox.Controls.Add(this.label13);
+            this.OtherSettings_GroupBox.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.OtherSettings_GroupBox.Location = new System.Drawing.Point(1001, 187);
+            this.OtherSettings_GroupBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.OtherSettings_GroupBox.Name = "OtherSettings_GroupBox";
+            this.OtherSettings_GroupBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.OtherSettings_GroupBox.Size = new System.Drawing.Size(432, 160);
+            this.OtherSettings_GroupBox.TabIndex = 12;
+            this.OtherSettings_GroupBox.TabStop = false;
+            this.OtherSettings_GroupBox.Text = "杂项设定";
+            // 
+            // GenerateLogicAddress
+            // 
+            this.GenerateLogicAddress.AutoSize = true;
+            this.GenerateLogicAddress.Location = new System.Drawing.Point(11, 119);
+            this.GenerateLogicAddress.Name = "GenerateLogicAddress";
+            this.GenerateLogicAddress.Size = new System.Drawing.Size(123, 21);
+            this.GenerateLogicAddress.TabIndex = 8;
+            this.GenerateLogicAddress.Text = "生成完整逻辑地址";
+            this.GenerateLogicAddress.UseVisualStyleBackColor = true;
+            // 
+            // GeneratorNumTarck
+            // 
+            this.GeneratorNumTarck.Location = new System.Drawing.Point(171, 71);
+            this.GeneratorNumTarck.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.GeneratorNumTarck.Maximum = 50;
+            this.GeneratorNumTarck.Minimum = 5;
+            this.GeneratorNumTarck.Name = "GeneratorNumTarck";
+            this.GeneratorNumTarck.Size = new System.Drawing.Size(253, 45);
+            this.GeneratorNumTarck.TabIndex = 7;
+            this.GeneratorNumTarck.TickFrequency = 50;
+            this.GeneratorNumTarck.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.GeneratorNumTarck.Value = 5;
+            this.GeneratorNumTarck.Scroll += new System.EventHandler(this.PageFaultTrack_Scroll);
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(137, 55);
+            this.label10.Location = new System.Drawing.Point(142, 75);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(17, 12);
+            this.label10.Size = new System.Drawing.Size(20, 17);
             this.label10.TabIndex = 6;
             this.label10.Text = "个";
             // 
-            // GeneraterNum
+            // GeneratorNum_TextBox
             // 
-            this.GeneraterNum.Location = new System.Drawing.Point(98, 50);
-            this.GeneraterNum.Name = "GeneraterNum";
-            this.GeneraterNum.Size = new System.Drawing.Size(33, 21);
-            this.GeneraterNum.TabIndex = 5;
-            this.GeneraterNum.Text = "5";
-            this.GeneraterNum.TextChanged += new System.EventHandler(this.PageFaultTime_TextChanged);
-            this.GeneraterNum.Leave += new System.EventHandler(this.PageFaultTime_Leave);
+            this.GeneratorNum_TextBox.Location = new System.Drawing.Point(100, 72);
+            this.GeneratorNum_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.GeneratorNum_TextBox.Name = "GeneratorNum_TextBox";
+            this.GeneratorNum_TextBox.Size = new System.Drawing.Size(38, 23);
+            this.GeneratorNum_TextBox.TabIndex = 5;
+            this.GeneratorNum_TextBox.Text = "5";
+            this.GeneratorNum_TextBox.TextChanged += new System.EventHandler(this.PageFaultTime_TextChanged);
+            this.GeneratorNum_TextBox.Leave += new System.EventHandler(this.PageFaultTime_Leave);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 55);
+            this.label11.Location = new System.Drawing.Point(7, 78);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(77, 12);
+            this.label11.Size = new System.Drawing.Size(80, 17);
             this.label11.TabIndex = 4;
             this.label11.Text = "生成序列个数";
             // 
             // MemoryBlockTrack
             // 
             this.MemoryBlockTrack.LargeChange = 100;
-            this.MemoryBlockTrack.Location = new System.Drawing.Point(159, 17);
+            this.MemoryBlockTrack.Location = new System.Drawing.Point(171, 24);
+            this.MemoryBlockTrack.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MemoryBlockTrack.Minimum = 3;
             this.MemoryBlockTrack.Name = "MemoryBlockTrack";
-            this.MemoryBlockTrack.Size = new System.Drawing.Size(205, 45);
+            this.MemoryBlockTrack.Size = new System.Drawing.Size(253, 45);
             this.MemoryBlockTrack.TabIndex = 3;
             this.MemoryBlockTrack.TickFrequency = 50;
             this.MemoryBlockTrack.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -322,53 +384,288 @@ namespace OpreatingSystemClassDesign
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(137, 22);
+            this.label12.Location = new System.Drawing.Point(142, 28);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(17, 12);
+            this.label12.Size = new System.Drawing.Size(20, 17);
             this.label12.TabIndex = 2;
             this.label12.Text = "个";
             // 
-            // MemroyBlockNum
+            // MemroyBlockNum_TextBox
             // 
-            this.MemroyBlockNum.Location = new System.Drawing.Point(98, 17);
-            this.MemroyBlockNum.Name = "MemroyBlockNum";
-            this.MemroyBlockNum.Size = new System.Drawing.Size(33, 21);
-            this.MemroyBlockNum.TabIndex = 1;
-            this.MemroyBlockNum.Text = "4";
-            this.MemroyBlockNum.TextChanged += new System.EventHandler(this.PageFaultTime_TextChanged);
-            this.MemroyBlockNum.Leave += new System.EventHandler(this.PageFaultTime_Leave);
+            this.MemroyBlockNum_TextBox.Location = new System.Drawing.Point(100, 25);
+            this.MemroyBlockNum_TextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MemroyBlockNum_TextBox.Name = "MemroyBlockNum_TextBox";
+            this.MemroyBlockNum_TextBox.Size = new System.Drawing.Size(38, 23);
+            this.MemroyBlockNum_TextBox.TabIndex = 1;
+            this.MemroyBlockNum_TextBox.Text = "4";
+            this.MemroyBlockNum_TextBox.TextChanged += new System.EventHandler(this.PageFaultTime_TextChanged);
+            this.MemroyBlockNum_TextBox.Leave += new System.EventHandler(this.PageFaultTime_Leave);
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(6, 22);
+            this.label13.Location = new System.Drawing.Point(7, 31);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(89, 12);
+            this.label13.Size = new System.Drawing.Size(92, 17);
             this.label13.TabIndex = 0;
             this.label13.Text = "驻留内存页块数";
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.FIFO_Result);
+            this.groupBox4.Controls.Add(this.label8);
+            this.groupBox4.Controls.Add(this.panel_FIFO);
+            this.groupBox4.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.groupBox4.Location = new System.Drawing.Point(14, 82);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox4.Size = new System.Drawing.Size(981, 765);
+            this.groupBox4.TabIndex = 13;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "算法可视化窗口";
+            // 
+            // FIFO_Result
+            // 
+            this.FIFO_Result.AutoSize = true;
+            this.FIFO_Result.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.FIFO_Result.Location = new System.Drawing.Point(10, 228);
+            this.FIFO_Result.Name = "FIFO_Result";
+            this.FIFO_Result.Size = new System.Drawing.Size(310, 25);
+            this.FIFO_Result.TabIndex = 2;
+            this.FIFO_Result.Text = "共用时间：s 缺页次数：缺页率：%";
+            this.FIFO_Result.Visible = false;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label8.Location = new System.Drawing.Point(7, 24);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(53, 25);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "FIFO";
+            // 
+            // panel_FIFO
+            // 
+            this.panel_FIFO.AutoScroll = true;
+            this.panel_FIFO.Controls.Add(this.dataGridView_FIFO);
+            this.panel_FIFO.Location = new System.Drawing.Point(8, 53);
+            this.panel_FIFO.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panel_FIFO.Name = "panel_FIFO";
+            this.panel_FIFO.Size = new System.Drawing.Size(967, 167);
+            this.panel_FIFO.TabIndex = 0;
+            // 
+            // dataGridView_FIFO
+            // 
+            this.dataGridView_FIFO.AllowUserToAddRows = false;
+            this.dataGridView_FIFO.AllowUserToDeleteRows = false;
+            this.dataGridView_FIFO.AllowUserToResizeColumns = false;
+            this.dataGridView_FIFO.AllowUserToResizeRows = false;
+            this.dataGridView_FIFO.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGridView_FIFO.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView_FIFO.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridView_FIFO.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dataGridView_FIFO.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView_FIFO.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridView_FIFO.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_FIFO.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dataGridView_FIFO.MultiSelect = false;
+            this.dataGridView_FIFO.Name = "dataGridView_FIFO";
+            this.dataGridView_FIFO.ReadOnly = true;
+            this.dataGridView_FIFO.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridView_FIFO.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridView_FIFO.RowTemplate.Height = 23;
+            this.dataGridView_FIFO.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView_FIFO.ShowCellToolTips = false;
+            this.dataGridView_FIFO.ShowEditingIcon = false;
+            this.dataGridView_FIFO.Size = new System.Drawing.Size(967, 167);
+            this.dataGridView_FIFO.TabIndex = 0;
+            this.dataGridView_FIFO.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_FIFO_CellClick);
+            // 
+            // ThreadSwitch_GroupBox
+            // 
+            this.ThreadSwitch_GroupBox.Controls.Add(this.ALL_Pause);
+            this.ThreadSwitch_GroupBox.Controls.Add(this.ALL_Start);
+            this.ThreadSwitch_GroupBox.Controls.Add(this.OPT_Pause);
+            this.ThreadSwitch_GroupBox.Controls.Add(this.OPT_Start);
+            this.ThreadSwitch_GroupBox.Controls.Add(this.LRU_Pause);
+            this.ThreadSwitch_GroupBox.Controls.Add(this.LRU_Start);
+            this.ThreadSwitch_GroupBox.Controls.Add(this.label16);
+            this.ThreadSwitch_GroupBox.Controls.Add(this.label15);
+            this.ThreadSwitch_GroupBox.Controls.Add(this.label14);
+            this.ThreadSwitch_GroupBox.Controls.Add(this.FIFO_Pause);
+            this.ThreadSwitch_GroupBox.Controls.Add(this.FIFO_Start);
+            this.ThreadSwitch_GroupBox.Controls.Add(this.label9);
+            this.ThreadSwitch_GroupBox.Location = new System.Drawing.Point(1001, 369);
+            this.ThreadSwitch_GroupBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ThreadSwitch_GroupBox.Name = "ThreadSwitch_GroupBox";
+            this.ThreadSwitch_GroupBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ThreadSwitch_GroupBox.Size = new System.Drawing.Size(425, 478);
+            this.ThreadSwitch_GroupBox.TabIndex = 14;
+            this.ThreadSwitch_GroupBox.TabStop = false;
+            this.ThreadSwitch_GroupBox.Text = "线程开关";
+            // 
+            // ALL_Pause
+            // 
+            this.ALL_Pause.Enabled = false;
+            this.ALL_Pause.Location = new System.Drawing.Point(299, 244);
+            this.ALL_Pause.Name = "ALL_Pause";
+            this.ALL_Pause.Size = new System.Drawing.Size(106, 36);
+            this.ALL_Pause.TabIndex = 15;
+            this.ALL_Pause.Text = "暂停";
+            this.ALL_Pause.UseVisualStyleBackColor = true;
+            // 
+            // ALL_Start
+            // 
+            this.ALL_Start.Location = new System.Drawing.Point(171, 244);
+            this.ALL_Start.Name = "ALL_Start";
+            this.ALL_Start.Size = new System.Drawing.Size(110, 36);
+            this.ALL_Start.TabIndex = 14;
+            this.ALL_Start.Text = "启动";
+            this.ALL_Start.UseVisualStyleBackColor = true;
+            // 
+            // OPT_Pause
+            // 
+            this.OPT_Pause.Enabled = false;
+            this.OPT_Pause.Location = new System.Drawing.Point(299, 171);
+            this.OPT_Pause.Name = "OPT_Pause";
+            this.OPT_Pause.Size = new System.Drawing.Size(106, 36);
+            this.OPT_Pause.TabIndex = 13;
+            this.OPT_Pause.Text = "暂停";
+            this.OPT_Pause.UseVisualStyleBackColor = true;
+            // 
+            // OPT_Start
+            // 
+            this.OPT_Start.Location = new System.Drawing.Point(171, 171);
+            this.OPT_Start.Name = "OPT_Start";
+            this.OPT_Start.Size = new System.Drawing.Size(110, 36);
+            this.OPT_Start.TabIndex = 12;
+            this.OPT_Start.Text = "启动";
+            this.OPT_Start.UseVisualStyleBackColor = true;
+            // 
+            // LRU_Pause
+            // 
+            this.LRU_Pause.Enabled = false;
+            this.LRU_Pause.Location = new System.Drawing.Point(299, 100);
+            this.LRU_Pause.Name = "LRU_Pause";
+            this.LRU_Pause.Size = new System.Drawing.Size(106, 36);
+            this.LRU_Pause.TabIndex = 11;
+            this.LRU_Pause.Text = "暂停";
+            this.LRU_Pause.UseVisualStyleBackColor = true;
+            // 
+            // LRU_Start
+            // 
+            this.LRU_Start.Location = new System.Drawing.Point(171, 100);
+            this.LRU_Start.Name = "LRU_Start";
+            this.LRU_Start.Size = new System.Drawing.Size(110, 36);
+            this.LRU_Start.TabIndex = 10;
+            this.LRU_Start.Text = "启动";
+            this.LRU_Start.UseVisualStyleBackColor = true;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(8, 254);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(80, 17);
+            this.label16.TabIndex = 9;
+            this.label16.Text = "启动全部线程";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(8, 181);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(112, 17);
+            this.label15.TabIndex = 6;
+            this.label15.Text = "最优置换算法(OPT)";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(8, 110);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(147, 17);
+            this.label14.TabIndex = 3;
+            this.label14.Text = "最久未使用置换算法(LRU)";
+            // 
+            // FIFO_Pause
+            // 
+            this.FIFO_Pause.Enabled = false;
+            this.FIFO_Pause.Location = new System.Drawing.Point(299, 32);
+            this.FIFO_Pause.Name = "FIFO_Pause";
+            this.FIFO_Pause.Size = new System.Drawing.Size(106, 36);
+            this.FIFO_Pause.TabIndex = 2;
+            this.FIFO_Pause.Text = "暂停";
+            this.FIFO_Pause.UseVisualStyleBackColor = true;
+            // 
+            // FIFO_Start
+            // 
+            this.FIFO_Start.Location = new System.Drawing.Point(171, 32);
+            this.FIFO_Start.Name = "FIFO_Start";
+            this.FIFO_Start.Size = new System.Drawing.Size(110, 36);
+            this.FIFO_Start.TabIndex = 1;
+            this.FIFO_Start.Text = "启动";
+            this.FIFO_Start.UseVisualStyleBackColor = true;
+            this.FIFO_Start.Click += new System.EventHandler(this.FIFO_Start_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(8, 42);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(138, 17);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "先进先出置换算法(FIFO)";
+            // 
+            // mainFormBindingSource
+            // 
+            this.mainFormBindingSource.DataSource = typeof(OpreatingSystemClassDesign.MainForm);
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1241, 610);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
+            this.ClientSize = new System.Drawing.Size(1448, 864);
+            this.Controls.Add(this.ThreadSwitch_GroupBox);
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.OtherSettings_GroupBox);
+            this.Controls.Add(this.TimeSetting_GroupBox);
             this.Controls.Add(this.groupBox1);
+            this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MainForm";
+            this.Text = "课程设计窗口";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PageFaultTrack)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MemoryTrack)).EndInit();
+            this.TimeSetting_GroupBox.ResumeLayout(false);
+            this.TimeSetting_GroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TLBTrack)).EndInit();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.GeneraterNumTarck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MemoryTrack)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PageFaultTrack)).EndInit();
+            this.OtherSettings_GroupBox.ResumeLayout(false);
+            this.OtherSettings_GroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GeneratorNumTarck)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MemoryBlockTrack)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.panel_FIFO.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_FIFO)).EndInit();
+            this.ThreadSwitch_GroupBox.ResumeLayout(false);
+            this.ThreadSwitch_GroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -379,27 +676,47 @@ namespace OpreatingSystemClassDesign
         private System.Windows.Forms.TextBox InputText;
         private System.Windows.Forms.Button RandomGenerate;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox TimeSetting_GroupBox;
         private System.Windows.Forms.TrackBar TLBTrack;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox TLBTime;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TrackBar MemoryTrack;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox MemoryTime;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TrackBar PageFaultTrack;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox PageFaultTime;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.TrackBar GeneraterNumTarck;
+        private System.Windows.Forms.GroupBox OtherSettings_GroupBox;
+        private System.Windows.Forms.TrackBar GeneratorNumTarck;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox GeneraterNum;
+        private System.Windows.Forms.TextBox GeneratorNum_TextBox;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TrackBar MemoryBlockTrack;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox MemroyBlockNum;
+        private System.Windows.Forms.TextBox MemroyBlockNum_TextBox;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Panel panel_FIFO;
+        private System.Windows.Forms.DataGridView dataGridView_FIFO;
+        private System.Windows.Forms.GroupBox ThreadSwitch_GroupBox;
+        private System.Windows.Forms.Button ALL_Pause;
+        private System.Windows.Forms.Button ALL_Start;
+        private System.Windows.Forms.Button OPT_Pause;
+        private System.Windows.Forms.Button OPT_Start;
+        private System.Windows.Forms.Button LRU_Pause;
+        private System.Windows.Forms.Button LRU_Start;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button FIFO_Pause;
+        private System.Windows.Forms.Button FIFO_Start;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox GenerateLogicAddress;
+        private System.Windows.Forms.Label FIFO_Result;
+        private System.Windows.Forms.TextBox TLBTime_TextBox;
+        private System.Windows.Forms.TextBox MemoryTime_TextBox;
+        private System.Windows.Forms.TextBox PageFaultTime_TextBox;
+        private System.Windows.Forms.BindingSource mainFormBindingSource;
     }
 }

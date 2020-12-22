@@ -23,12 +23,14 @@ namespace OpreatingSystemClassDesign
         /// <summary>
         /// 内存页框内容,未分配内容写-1
         /// </summary>
-        public static Dictionary<int, int> Memory = new Dictionary<int, int>
-        {
-            {1,-1 },
-            {3,-1 },
-            {4,-1 },
-            {7,-1 }
-        };
+        public static Dictionary<int, int> Memory = new Dictionary<int, int>();
+        /// <summary>
+        /// FIFO内存处理队列
+        /// </summary>
+        public static Queue<MemoryBlock> MemoryQueue_FIFO = new Queue<MemoryBlock>();
+        /// <summary>
+        /// FIFO内存页框内容,未分配内容写-1
+        /// </summary>
+        public static Dictionary<int, int> Memory_FIFO = new Dictionary<int, int>();
     }
 }

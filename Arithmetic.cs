@@ -8,41 +8,44 @@ namespace OpreatingSystemClassDesign
         /// <summary>
         /// 对内存队列进行先进先出（FIFO）置换
         /// </summary>
-        /// <param name="memoryBlock">要进行操作的内存地址</param>
+        /// <param name="memoryAddress">要进行操作的内存地址</param>
+        /// <param name="blockNum">被置换出的内存页号</param>
         /// <returns>是否发生缺页中断</returns>
-        static bool MakeFIFO(int memoryAddress)
+        public static bool MakeFIFO(int memoryAddress,out int blockNum)
         {
             MemoryBlock pageBlock = new MemoryBlock()
             {
                 PageNum = Helper.GetPageBlock(memoryAddress),
                 PageFrameNum = -1
             };
+            blockNum = 0;
             //此页面是否在页框内
-            if (GlobalVariable.MemoryQueue.Any(x => x.PageNum == pageBlock.PageNum))
+            if (GlobalVariable.MemoryQueue_FIFO.Any(x => x.PageNum == pageBlock.PageNum))
             {
                 return false;
             }
             else
             {
                 //页框是否已满
-                if (GlobalVariable.MemoryQueue.Count >= 4)
+                if (GlobalVariable.MemoryQueue_FIFO.Count >= MainForm.MemoryBlockNum)
                 {
                     //取队列第一个内存块的页框号
                     //将页框内此号码的页面数更新为此块
-                    GlobalVariable.Memory[GlobalVariable.MemoryQueue.Peek().PageFrameNum] = pageBlock.PageNum;
+                    GlobalVariable.Memory_FIFO[GlobalVariable.MemoryQueue_FIFO.Peek().PageFrameNum] = pageBlock.PageNum;
                     //完善页块信息
-                    pageBlock.PageFrameNum = GlobalVariable.MemoryQueue.Dequeue().PageFrameNum;
+                    pageBlock.PageFrameNum = GlobalVariable.MemoryQueue_FIFO.Dequeue().PageFrameNum;
+                    blockNum = pageBlock.PageFrameNum;
                 }
-                foreach (var item in GlobalVariable.Memory)
+                foreach (var item in GlobalVariable.Memory_FIFO)
                 {
                     if (item.Value == -1)
                     {
-                        GlobalVariable.Memory[item.Key] = pageBlock.PageNum;
+                        GlobalVariable.Memory_FIFO[item.Key] = pageBlock.PageNum;
                         pageBlock.PageFrameNum = item.Key;
                         break;
                     }
                 }
-                GlobalVariable.MemoryQueue.Enqueue(pageBlock);
+                GlobalVariable.MemoryQueue_FIFO.Enqueue(pageBlock);
                 return true;
             }
         }
@@ -51,7 +54,7 @@ namespace OpreatingSystemClassDesign
         /// </summary>
         /// <param name="memoryAddress"></param>
         /// <returns></returns>
-        static bool MakeLRU(int memoryAddress)
+        public static bool MakeLRU(int memoryAddress)
         {
             MemoryBlock pageBlock = new MemoryBlock()
             {
@@ -89,7 +92,7 @@ namespace OpreatingSystemClassDesign
         /// </summary>
         /// <param name="memoryAddress"></param>
         /// <returns></returns>
-        static bool MakeOPT(List<int> inputAddress, int index)
+        public static bool MakeOPT(List<int> inputAddress, int index)
         {
             MemoryBlock pageBlock = new MemoryBlock()
             {
