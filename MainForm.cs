@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Threading;
@@ -71,7 +70,7 @@ namespace OpreatingSystemClassDesign
                 }
                 else
                 {
-                    sb.Append(rd.Next(0,15).ToString("X0"));
+                    sb.Append(rd.Next(0, 15).ToString("X0"));
                 }
                 sb.Append(" ");
             }
@@ -228,7 +227,7 @@ namespace OpreatingSystemClassDesign
             }
             if (InputAddresses == null || InputAddresses.Count == 0)
             {
-                if(string.IsNullOrWhiteSpace(InputText.Text))
+                if (string.IsNullOrWhiteSpace(InputText.Text))
                 {
                     RandomGenerate.PerformClick();
                 }
@@ -241,17 +240,28 @@ namespace OpreatingSystemClassDesign
             int pageFaultCount = 0;
             int timeSpent = 0;
             Thread_FIFO = new Thread(() =>
-            {   
+            {
                 foreach (var item in InputAddresses)
                 {
                     bool flag = Arithmetic.MakeFIFO(item, out int blockNum);
-                    UpdateDGV(dataGridView_FIFO, Models.ArithmeticType.FIFO, flag, blockNum);
-                    if(flag)
+                    dataGridView_FIFO.Invoke(new MethodInvoker
+                        (() => UpdateDGV(dataGridView_FIFO, Models.ArithmeticType.FIFO, flag, blockNum)));
+                    Thread.Sleep(MemoryTime);
+                    Thread.Sleep(TLBTime);
+                    timeSpent += MemoryTime + TLBTime;
+                    if (flag)
                     {
                         pageFaultCount++;
+
+                        Thread.Sleep(PageFaultTime);
+                        Thread.Sleep(MemoryTime);
+                        Thread.Sleep(TLBTime);
+
+                        timeSpent += PageFaultTime;
+                        timeSpent += MemoryTime + TLBTime;
                     }
                 }
-                groupBox1.Invoke(new MethodInvoker(()=>
+                groupBox1.Invoke(new MethodInvoker(() =>
                 {
                     EnableState();
                     FIFO_Result.Text = $"共用时间：{timeSpent}ms 缺页次数：{pageFaultCount}/{InputAddresses.Count} " +
@@ -259,7 +269,7 @@ namespace OpreatingSystemClassDesign
                     FIFO_Result.Visible = true;
                 }));
             });
-            Thread_FIFO.Start();            
+            Thread_FIFO.Start();
         }
         private void DisableState()
         {
@@ -297,7 +307,7 @@ namespace OpreatingSystemClassDesign
                             dataGridView_FIFO.Rows[i].Cells[count_FIFO].Style.ForeColor = Color.Red;
                         }
                     }
-                    if(flag)
+                    if (flag)
                     {
                         dataGridView_FIFO.Rows[MemoryBlockNum].Cells[count_FIFO].Value = "√";
                     }
