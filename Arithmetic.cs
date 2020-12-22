@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpreatingSystemClassDesign
 {
     public static class Arithmetic
-    {        /// <summary>
-             /// 对内存队列进行先进先出（FIFO）置换
-             /// </summary>
-             /// <param name="memoryBlock">要进行操作的内存地址</param>
-             /// <returns>是否发生缺页中断</returns>
+    {
+        /// <summary>
+        /// 对内存队列进行先进先出（FIFO）置换
+        /// </summary>
+        /// <param name="memoryBlock">要进行操作的内存地址</param>
+        /// <returns>是否发生缺页中断</returns>
         static bool MakeFIFO(int memoryAddress)
         {
             MemoryBlock pageBlock = new MemoryBlock()

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpreatingSystemClassDesign
 {
@@ -15,7 +12,7 @@ namespace OpreatingSystemClassDesign
         public static List<int> ReadAddress()
         {
             List<int> MemoryAddresses = new List<int>();
-            var str = Console.ReadLine().Split('、');
+            var str = Console.ReadLine().Split(' ');
             for (int i = 0; i < str.Length; i++)
             {
                 str[i] = str[i].Replace("H", "");
