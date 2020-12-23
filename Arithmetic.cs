@@ -54,36 +54,38 @@ namespace OpreatingSystemClassDesign
         /// </summary>
         /// <param name="memoryAddress"></param>
         /// <returns></returns>
-        public static bool MakeLRU(int memoryAddress)
+        public static bool MakeLRU(int memoryAddress,out int blockNum)
         {
             MemoryBlock pageBlock = new MemoryBlock()
             {
                 PageNum = Helper.GetPageBlock(memoryAddress),
                 PageFrameNum = -1
             };
-            if (GlobalVariable.MemoryQueue.Any(x => x.PageNum == pageBlock.PageNum))
+            blockNum = 0;
+            if (GlobalVariable.MemoryQueue_LRU.Any(x => x.PageNum == pageBlock.PageNum))
             {
-                pageBlock.PageFrameNum = Helper.RemoveValueFromMemoryQueue(pageBlock.PageNum).PageFrameNum;
-                GlobalVariable.MemoryQueue.Enqueue(pageBlock);
+                pageBlock.PageFrameNum = Helper.RemoveValueFromMemoryQueue(pageBlock.PageNum,ref GlobalVariable.MemoryQueue_LRU).PageFrameNum;
+                GlobalVariable.MemoryQueue_LRU.Enqueue(pageBlock);
                 return false;
             }
             else
             {
-                if (GlobalVariable.MemoryQueue.Count >= 4)
+                if (GlobalVariable.MemoryQueue_LRU.Count >= 4)
                 {
-                    GlobalVariable.Memory[GlobalVariable.MemoryQueue.Peek().PageFrameNum] = pageBlock.PageNum;
-                    pageBlock.PageFrameNum = GlobalVariable.MemoryQueue.Dequeue().PageFrameNum;
+                    GlobalVariable.Memory_LRU[GlobalVariable.MemoryQueue_LRU.Peek().PageFrameNum] = pageBlock.PageNum;
+                    pageBlock.PageFrameNum = GlobalVariable.MemoryQueue_LRU.Dequeue().PageFrameNum;
+                    blockNum = pageBlock.PageFrameNum;
                 }
-                foreach (var item in GlobalVariable.Memory)
+                foreach (var item in GlobalVariable.Memory_LRU)
                 {
                     if (item.Value == -1)
                     {
-                        GlobalVariable.Memory[item.Key] = pageBlock.PageNum;
+                        GlobalVariable.Memory_LRU[item.Key] = pageBlock.PageNum;
                         pageBlock.PageFrameNum = item.Key;
                         break;
                     }
                 }
-                GlobalVariable.MemoryQueue.Enqueue(pageBlock);
+                GlobalVariable.MemoryQueue_LRU.Enqueue(pageBlock);
                 return true;
             }
         }
@@ -92,26 +94,27 @@ namespace OpreatingSystemClassDesign
         /// </summary>
         /// <param name="memoryAddress"></param>
         /// <returns></returns>
-        public static bool MakeOPT(List<int> inputAddress, int index)
+        public static bool MakeOPT(List<int> inputAddress, int index,out int blockNum)
         {
             MemoryBlock pageBlock = new MemoryBlock()
             {
                 PageNum = Helper.GetPageBlock(inputAddress[index]),
                 PageFrameNum = -1
             };
+            blockNum = 0;
             //此页面是否在页框内
-            if (GlobalVariable.MemoryQueue.Any(x => x.PageNum == pageBlock.PageNum))
+            if (GlobalVariable.MemoryQueue_OPT.Any(x => x.PageNum == pageBlock.PageNum))
             {
                 return false;
             }
             else
             {
                 //页框是否已满
-                if (GlobalVariable.MemoryQueue.Count >= 4)
+                if (GlobalVariable.MemoryQueue_OPT.Count >= 4)
                 {
                     //求指令序列中,当前位置后,所有在队列中出现的页号出现的次数
                     Dictionary<int, int> count = new Dictionary<int, int>();
-                    foreach (var item in GlobalVariable.MemoryQueue)
+                    foreach (var item in GlobalVariable.MemoryQueue_OPT)
                     {
                         int numCount = 0;
                         foreach (var num in inputAddress.GetRange(index, inputAddress.Count - index))
@@ -126,22 +129,23 @@ namespace OpreatingSystemClassDesign
                     //按从小到大排序
                     var ResLs = count.OrderBy(x => x.Value).ToList();
                     //通过键值反查页框号
-                    int memFrameKey = GlobalVariable.Memory.Where(x => x.Value == ResLs[0].Key).First().Key;
+                    int memFrameKey = GlobalVariable.Memory_OPT.Where(x => x.Value == ResLs[0].Key).First().Key;
                     //将内存中此页框号内的页号替换为目标页号
-                    GlobalVariable.Memory[memFrameKey] = pageBlock.PageNum;
+                    GlobalVariable.Memory_OPT[memFrameKey] = pageBlock.PageNum;
                     //从队列中移除此值
-                    pageBlock.PageFrameNum = Helper.RemoveValueFromMemoryQueue(ResLs[0].Key).PageFrameNum;
+                    pageBlock.PageFrameNum = Helper.RemoveValueFromMemoryQueue(ResLs[0].Key,ref GlobalVariable.MemoryQueue_OPT).PageFrameNum;
+                    blockNum = pageBlock.PageFrameNum;
                 }
-                foreach (var item in GlobalVariable.Memory)
+                foreach (var item in GlobalVariable.Memory_OPT)
                 {
                     if (item.Value == -1)
                     {
-                        GlobalVariable.Memory[item.Key] = pageBlock.PageNum;
+                        GlobalVariable.Memory_OPT[item.Key] = pageBlock.PageNum;
                         pageBlock.PageFrameNum = item.Key;
                         break;
                     }
                 }
-                GlobalVariable.MemoryQueue.Enqueue(pageBlock);
+                GlobalVariable.MemoryQueue_OPT.Enqueue(pageBlock);
                 return true;
             }
         }

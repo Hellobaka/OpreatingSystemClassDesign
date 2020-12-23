@@ -45,13 +45,13 @@ namespace OpreatingSystemClassDesign
         /// </summary>
         /// <param name="value">PageNum</param>
         /// <returns></returns>
-        public static MemoryBlock RemoveValueFromMemoryQueue(int PageNum)
+        public static MemoryBlock RemoveValueFromMemoryQueue(int PageNum,ref Queue<MemoryBlock> MemoryQueue)
         {
             Queue<MemoryBlock> tmpQueue = new Queue<MemoryBlock>();
             MemoryBlock removeItem = new MemoryBlock();
             do
             {
-                var c = GlobalVariable.MemoryQueue.Dequeue();
+                var c = MemoryQueue.Dequeue();
                 if (c.PageNum != PageNum)
                 {
                     tmpQueue.Enqueue(c);
@@ -60,10 +60,9 @@ namespace OpreatingSystemClassDesign
                 {
                     removeItem = c;
                 }
-            } while (GlobalVariable.MemoryQueue.Count != 0);
-            GlobalVariable.MemoryQueue = tmpQueue;
+            } while (MemoryQueue.Count != 0);
+            MemoryQueue = tmpQueue;
             return removeItem;
         }
-
     }
 }

@@ -29,9 +29,12 @@ namespace OpreatingSystemClassDesign
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.InputText = new System.Windows.Forms.TextBox();
             this.RandomGenerate = new System.Windows.Forms.Button();
@@ -63,24 +66,35 @@ namespace OpreatingSystemClassDesign
             this.MemroyBlockNum_TextBox = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.OPT_Result = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.dataGridView_OPT = new System.Windows.Forms.DataGridView();
+            this.LRU_Result = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.dataGridView_LRU = new System.Windows.Forms.DataGridView();
             this.FIFO_Result = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.panel_FIFO = new System.Windows.Forms.Panel();
             this.dataGridView_FIFO = new System.Windows.Forms.DataGridView();
             this.ThreadSwitch_GroupBox = new System.Windows.Forms.GroupBox();
+            this.panel_ControlAll = new System.Windows.Forms.Panel();
             this.ALL_Pause = new System.Windows.Forms.Button();
             this.ALL_Start = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
+            this.panel_ControlOPT = new System.Windows.Forms.Panel();
             this.OPT_Pause = new System.Windows.Forms.Button();
             this.OPT_Start = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
+            this.panel_ControlLRU = new System.Windows.Forms.Panel();
             this.LRU_Pause = new System.Windows.Forms.Button();
             this.LRU_Start = new System.Windows.Forms.Button();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.panel_ControlFIFO = new System.Windows.Forms.Panel();
             this.FIFO_Pause = new System.Windows.Forms.Button();
             this.FIFO_Start = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
-            this.mainFormBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
             this.TimeSetting_GroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TLBTrack)).BeginInit();
@@ -91,10 +105,17 @@ namespace OpreatingSystemClassDesign
             ((System.ComponentModel.ISupportInitialize)(this.GeneratorNumTarck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MemoryBlockTrack)).BeginInit();
             this.groupBox4.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_OPT)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_LRU)).BeginInit();
             this.panel_FIFO.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_FIFO)).BeginInit();
             this.ThreadSwitch_GroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).BeginInit();
+            this.panel_ControlAll.SuspendLayout();
+            this.panel_ControlOPT.SuspendLayout();
+            this.panel_ControlLRU.SuspendLayout();
+            this.panel_ControlFIFO.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -453,6 +474,12 @@ namespace OpreatingSystemClassDesign
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.OPT_Result);
+            this.groupBox4.Controls.Add(this.label21);
+            this.groupBox4.Controls.Add(this.panel2);
+            this.groupBox4.Controls.Add(this.LRU_Result);
+            this.groupBox4.Controls.Add(this.label19);
+            this.groupBox4.Controls.Add(this.panel1);
             this.groupBox4.Controls.Add(this.FIFO_Result);
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.panel_FIFO);
@@ -465,6 +492,136 @@ namespace OpreatingSystemClassDesign
             this.groupBox4.TabIndex = 13;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "算法可视化窗口";
+            // 
+            // OPT_Result
+            // 
+            this.OPT_Result.AutoSize = true;
+            this.OPT_Result.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.OPT_Result.Location = new System.Drawing.Point(8, 709);
+            this.OPT_Result.Name = "OPT_Result";
+            this.OPT_Result.Size = new System.Drawing.Size(310, 25);
+            this.OPT_Result.TabIndex = 8;
+            this.OPT_Result.Text = "共用时间：s 缺页次数：缺页率：%";
+            this.OPT_Result.Visible = false;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label21.Location = new System.Drawing.Point(5, 505);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(50, 25);
+            this.label21.TabIndex = 7;
+            this.label21.Text = "OPT";
+            // 
+            // panel2
+            // 
+            this.panel2.AutoScroll = true;
+            this.panel2.Controls.Add(this.dataGridView_OPT);
+            this.panel2.Location = new System.Drawing.Point(6, 534);
+            this.panel2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(967, 167);
+            this.panel2.TabIndex = 6;
+            // 
+            // dataGridView_OPT
+            // 
+            this.dataGridView_OPT.AllowUserToAddRows = false;
+            this.dataGridView_OPT.AllowUserToDeleteRows = false;
+            this.dataGridView_OPT.AllowUserToResizeColumns = false;
+            this.dataGridView_OPT.AllowUserToResizeRows = false;
+            this.dataGridView_OPT.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGridView_OPT.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView_OPT.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            this.dataGridView_OPT.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dataGridView_OPT.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView_OPT.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridView_OPT.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_OPT.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dataGridView_OPT.MultiSelect = false;
+            this.dataGridView_OPT.Name = "dataGridView_OPT";
+            this.dataGridView_OPT.ReadOnly = true;
+            this.dataGridView_OPT.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridView_OPT.RowsDefaultCellStyle = dataGridViewCellStyle8;
+            this.dataGridView_OPT.RowTemplate.Height = 23;
+            this.dataGridView_OPT.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dataGridView_OPT.ShowCellToolTips = false;
+            this.dataGridView_OPT.ShowEditingIcon = false;
+            this.dataGridView_OPT.Size = new System.Drawing.Size(967, 167);
+            this.dataGridView_OPT.TabIndex = 0;
+            // 
+            // LRU_Result
+            // 
+            this.LRU_Result.AutoSize = true;
+            this.LRU_Result.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.LRU_Result.Location = new System.Drawing.Point(9, 472);
+            this.LRU_Result.Name = "LRU_Result";
+            this.LRU_Result.Size = new System.Drawing.Size(310, 25);
+            this.LRU_Result.TabIndex = 5;
+            this.LRU_Result.Text = "共用时间：s 缺页次数：缺页率：%";
+            this.LRU_Result.Visible = false;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label19.Location = new System.Drawing.Point(6, 268);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(48, 25);
+            this.label19.TabIndex = 4;
+            this.label19.Text = "LRU";
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.dataGridView_LRU);
+            this.panel1.Location = new System.Drawing.Point(7, 297);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(967, 167);
+            this.panel1.TabIndex = 3;
+            // 
+            // dataGridView_LRU
+            // 
+            this.dataGridView_LRU.AllowUserToAddRows = false;
+            this.dataGridView_LRU.AllowUserToDeleteRows = false;
+            this.dataGridView_LRU.AllowUserToResizeColumns = false;
+            this.dataGridView_LRU.AllowUserToResizeRows = false;
+            this.dataGridView_LRU.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGridView_LRU.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView_LRU.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            this.dataGridView_LRU.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dataGridView_LRU.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView_LRU.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridView_LRU.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView_LRU.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dataGridView_LRU.MultiSelect = false;
+            this.dataGridView_LRU.Name = "dataGridView_LRU";
+            this.dataGridView_LRU.ReadOnly = true;
+            this.dataGridView_LRU.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridView_LRU.RowsDefaultCellStyle = dataGridViewCellStyle10;
+            this.dataGridView_LRU.RowTemplate.Height = 23;
+            this.dataGridView_LRU.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dataGridView_LRU.ShowCellToolTips = false;
+            this.dataGridView_LRU.ShowEditingIcon = false;
+            this.dataGridView_LRU.Size = new System.Drawing.Size(967, 167);
+            this.dataGridView_LRU.TabIndex = 0;
             // 
             // FIFO_Result
             // 
@@ -505,14 +662,14 @@ namespace OpreatingSystemClassDesign
             this.dataGridView_FIFO.AllowUserToResizeRows = false;
             this.dataGridView_FIFO.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridView_FIFO.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView_FIFO.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView_FIFO.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
             this.dataGridView_FIFO.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView_FIFO.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView_FIFO.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
@@ -522,8 +679,8 @@ namespace OpreatingSystemClassDesign
             this.dataGridView_FIFO.Name = "dataGridView_FIFO";
             this.dataGridView_FIFO.ReadOnly = true;
             this.dataGridView_FIFO.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridView_FIFO.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridView_FIFO.RowsDefaultCellStyle = dataGridViewCellStyle12;
             this.dataGridView_FIFO.RowTemplate.Height = 23;
             this.dataGridView_FIFO.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridView_FIFO.ShowCellToolTips = false;
@@ -534,18 +691,10 @@ namespace OpreatingSystemClassDesign
             // 
             // ThreadSwitch_GroupBox
             // 
-            this.ThreadSwitch_GroupBox.Controls.Add(this.ALL_Pause);
-            this.ThreadSwitch_GroupBox.Controls.Add(this.ALL_Start);
-            this.ThreadSwitch_GroupBox.Controls.Add(this.OPT_Pause);
-            this.ThreadSwitch_GroupBox.Controls.Add(this.OPT_Start);
-            this.ThreadSwitch_GroupBox.Controls.Add(this.LRU_Pause);
-            this.ThreadSwitch_GroupBox.Controls.Add(this.LRU_Start);
-            this.ThreadSwitch_GroupBox.Controls.Add(this.label16);
-            this.ThreadSwitch_GroupBox.Controls.Add(this.label15);
-            this.ThreadSwitch_GroupBox.Controls.Add(this.label14);
-            this.ThreadSwitch_GroupBox.Controls.Add(this.FIFO_Pause);
-            this.ThreadSwitch_GroupBox.Controls.Add(this.FIFO_Start);
-            this.ThreadSwitch_GroupBox.Controls.Add(this.label9);
+            this.ThreadSwitch_GroupBox.Controls.Add(this.panel_ControlAll);
+            this.ThreadSwitch_GroupBox.Controls.Add(this.panel_ControlOPT);
+            this.ThreadSwitch_GroupBox.Controls.Add(this.panel_ControlLRU);
+            this.ThreadSwitch_GroupBox.Controls.Add(this.panel_ControlFIFO);
             this.ThreadSwitch_GroupBox.Location = new System.Drawing.Point(1001, 398);
             this.ThreadSwitch_GroupBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ThreadSwitch_GroupBox.Name = "ThreadSwitch_GroupBox";
@@ -555,107 +704,153 @@ namespace OpreatingSystemClassDesign
             this.ThreadSwitch_GroupBox.TabStop = false;
             this.ThreadSwitch_GroupBox.Text = "线程开关";
             // 
+            // panel_ControlAll
+            // 
+            this.panel_ControlAll.Controls.Add(this.ALL_Pause);
+            this.panel_ControlAll.Controls.Add(this.ALL_Start);
+            this.panel_ControlAll.Controls.Add(this.label16);
+            this.panel_ControlAll.Location = new System.Drawing.Point(1, 236);
+            this.panel_ControlAll.Name = "panel_ControlAll";
+            this.panel_ControlAll.Size = new System.Drawing.Size(422, 71);
+            this.panel_ControlAll.TabIndex = 19;
+            // 
             // ALL_Pause
             // 
             this.ALL_Pause.Enabled = false;
-            this.ALL_Pause.Location = new System.Drawing.Point(299, 244);
+            this.ALL_Pause.Location = new System.Drawing.Point(298, 17);
             this.ALL_Pause.Name = "ALL_Pause";
             this.ALL_Pause.Size = new System.Drawing.Size(106, 36);
-            this.ALL_Pause.TabIndex = 15;
+            this.ALL_Pause.TabIndex = 18;
             this.ALL_Pause.Text = "暂停";
             this.ALL_Pause.UseVisualStyleBackColor = true;
+            this.ALL_Pause.Click += new System.EventHandler(this.ALL_Pause_Click);
             // 
             // ALL_Start
             // 
-            this.ALL_Start.Location = new System.Drawing.Point(171, 244);
+            this.ALL_Start.Location = new System.Drawing.Point(170, 17);
             this.ALL_Start.Name = "ALL_Start";
             this.ALL_Start.Size = new System.Drawing.Size(110, 36);
-            this.ALL_Start.TabIndex = 14;
+            this.ALL_Start.TabIndex = 17;
             this.ALL_Start.Text = "启动";
             this.ALL_Start.UseVisualStyleBackColor = true;
-            // 
-            // OPT_Pause
-            // 
-            this.OPT_Pause.Enabled = false;
-            this.OPT_Pause.Location = new System.Drawing.Point(299, 171);
-            this.OPT_Pause.Name = "OPT_Pause";
-            this.OPT_Pause.Size = new System.Drawing.Size(106, 36);
-            this.OPT_Pause.TabIndex = 13;
-            this.OPT_Pause.Text = "暂停";
-            this.OPT_Pause.UseVisualStyleBackColor = true;
-            // 
-            // OPT_Start
-            // 
-            this.OPT_Start.Location = new System.Drawing.Point(171, 171);
-            this.OPT_Start.Name = "OPT_Start";
-            this.OPT_Start.Size = new System.Drawing.Size(110, 36);
-            this.OPT_Start.TabIndex = 12;
-            this.OPT_Start.Text = "启动";
-            this.OPT_Start.UseVisualStyleBackColor = true;
-            // 
-            // LRU_Pause
-            // 
-            this.LRU_Pause.Enabled = false;
-            this.LRU_Pause.Location = new System.Drawing.Point(299, 100);
-            this.LRU_Pause.Name = "LRU_Pause";
-            this.LRU_Pause.Size = new System.Drawing.Size(106, 36);
-            this.LRU_Pause.TabIndex = 11;
-            this.LRU_Pause.Text = "暂停";
-            this.LRU_Pause.UseVisualStyleBackColor = true;
-            // 
-            // LRU_Start
-            // 
-            this.LRU_Start.Location = new System.Drawing.Point(171, 100);
-            this.LRU_Start.Name = "LRU_Start";
-            this.LRU_Start.Size = new System.Drawing.Size(110, 36);
-            this.LRU_Start.TabIndex = 10;
-            this.LRU_Start.Text = "启动";
-            this.LRU_Start.UseVisualStyleBackColor = true;
+            this.ALL_Start.Click += new System.EventHandler(this.ALL_Start_Click);
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(8, 254);
+            this.label16.Location = new System.Drawing.Point(7, 27);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(80, 17);
-            this.label16.TabIndex = 9;
+            this.label16.TabIndex = 16;
             this.label16.Text = "启动全部线程";
+            // 
+            // panel_ControlOPT
+            // 
+            this.panel_ControlOPT.Controls.Add(this.OPT_Pause);
+            this.panel_ControlOPT.Controls.Add(this.OPT_Start);
+            this.panel_ControlOPT.Controls.Add(this.label15);
+            this.panel_ControlOPT.Location = new System.Drawing.Point(1, 165);
+            this.panel_ControlOPT.Name = "panel_ControlOPT";
+            this.panel_ControlOPT.Size = new System.Drawing.Size(422, 71);
+            this.panel_ControlOPT.TabIndex = 18;
+            // 
+            // OPT_Pause
+            // 
+            this.OPT_Pause.Enabled = false;
+            this.OPT_Pause.Location = new System.Drawing.Point(298, 13);
+            this.OPT_Pause.Name = "OPT_Pause";
+            this.OPT_Pause.Size = new System.Drawing.Size(106, 36);
+            this.OPT_Pause.TabIndex = 16;
+            this.OPT_Pause.Text = "暂停";
+            this.OPT_Pause.UseVisualStyleBackColor = true;
+            this.OPT_Pause.Click += new System.EventHandler(this.OPT_Pause_Click);
+            // 
+            // OPT_Start
+            // 
+            this.OPT_Start.Location = new System.Drawing.Point(170, 13);
+            this.OPT_Start.Name = "OPT_Start";
+            this.OPT_Start.Size = new System.Drawing.Size(110, 36);
+            this.OPT_Start.TabIndex = 15;
+            this.OPT_Start.Text = "启动";
+            this.OPT_Start.UseVisualStyleBackColor = true;
+            this.OPT_Start.Click += new System.EventHandler(this.OPT_Start_Click);
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(8, 181);
+            this.label15.Location = new System.Drawing.Point(6, 23);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(112, 17);
-            this.label15.TabIndex = 6;
+            this.label15.TabIndex = 14;
             this.label15.Text = "最优置换算法(OPT)";
+            // 
+            // panel_ControlLRU
+            // 
+            this.panel_ControlLRU.Controls.Add(this.LRU_Pause);
+            this.panel_ControlLRU.Controls.Add(this.LRU_Start);
+            this.panel_ControlLRU.Controls.Add(this.label14);
+            this.panel_ControlLRU.Location = new System.Drawing.Point(1, 94);
+            this.panel_ControlLRU.Name = "panel_ControlLRU";
+            this.panel_ControlLRU.Size = new System.Drawing.Size(422, 71);
+            this.panel_ControlLRU.TabIndex = 17;
+            // 
+            // LRU_Pause
+            // 
+            this.LRU_Pause.Enabled = false;
+            this.LRU_Pause.Location = new System.Drawing.Point(298, 16);
+            this.LRU_Pause.Name = "LRU_Pause";
+            this.LRU_Pause.Size = new System.Drawing.Size(106, 36);
+            this.LRU_Pause.TabIndex = 14;
+            this.LRU_Pause.Text = "暂停";
+            this.LRU_Pause.UseVisualStyleBackColor = true;
+            this.LRU_Pause.Click += new System.EventHandler(this.LRU_Pause_Click);
+            // 
+            // LRU_Start
+            // 
+            this.LRU_Start.Location = new System.Drawing.Point(170, 16);
+            this.LRU_Start.Name = "LRU_Start";
+            this.LRU_Start.Size = new System.Drawing.Size(110, 36);
+            this.LRU_Start.TabIndex = 13;
+            this.LRU_Start.Text = "启动";
+            this.LRU_Start.UseVisualStyleBackColor = true;
+            this.LRU_Start.Click += new System.EventHandler(this.LRU_Start_Click);
             // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(8, 110);
+            this.label14.Location = new System.Drawing.Point(7, 26);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(147, 17);
-            this.label14.TabIndex = 3;
+            this.label14.TabIndex = 12;
             this.label14.Text = "最久未使用置换算法(LRU)";
+            // 
+            // panel_ControlFIFO
+            // 
+            this.panel_ControlFIFO.Controls.Add(this.FIFO_Pause);
+            this.panel_ControlFIFO.Controls.Add(this.FIFO_Start);
+            this.panel_ControlFIFO.Controls.Add(this.label9);
+            this.panel_ControlFIFO.Location = new System.Drawing.Point(1, 23);
+            this.panel_ControlFIFO.Name = "panel_ControlFIFO";
+            this.panel_ControlFIFO.Size = new System.Drawing.Size(422, 71);
+            this.panel_ControlFIFO.TabIndex = 16;
             // 
             // FIFO_Pause
             // 
             this.FIFO_Pause.Enabled = false;
-            this.FIFO_Pause.Location = new System.Drawing.Point(299, 32);
+            this.FIFO_Pause.Location = new System.Drawing.Point(298, 15);
             this.FIFO_Pause.Name = "FIFO_Pause";
             this.FIFO_Pause.Size = new System.Drawing.Size(106, 36);
-            this.FIFO_Pause.TabIndex = 2;
+            this.FIFO_Pause.TabIndex = 5;
             this.FIFO_Pause.Text = "暂停";
             this.FIFO_Pause.UseVisualStyleBackColor = true;
             this.FIFO_Pause.Click += new System.EventHandler(this.FIFO_Pause_Click);
             // 
             // FIFO_Start
             // 
-            this.FIFO_Start.Location = new System.Drawing.Point(171, 32);
+            this.FIFO_Start.Location = new System.Drawing.Point(170, 15);
             this.FIFO_Start.Name = "FIFO_Start";
             this.FIFO_Start.Size = new System.Drawing.Size(110, 36);
-            this.FIFO_Start.TabIndex = 1;
+            this.FIFO_Start.TabIndex = 4;
             this.FIFO_Start.Text = "启动";
             this.FIFO_Start.UseVisualStyleBackColor = true;
             this.FIFO_Start.Click += new System.EventHandler(this.FIFO_Start_Click);
@@ -663,15 +858,11 @@ namespace OpreatingSystemClassDesign
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(8, 42);
+            this.label9.Location = new System.Drawing.Point(7, 25);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(138, 17);
-            this.label9.TabIndex = 0;
+            this.label9.TabIndex = 3;
             this.label9.Text = "先进先出置换算法(FIFO)";
-            // 
-            // mainFormBindingSource
-            // 
-            this.mainFormBindingSource.DataSource = typeof(OpreatingSystemClassDesign.MainForm);
             // 
             // MainForm
             // 
@@ -704,11 +895,21 @@ namespace OpreatingSystemClassDesign
             ((System.ComponentModel.ISupportInitialize)(this.MemoryBlockTrack)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_OPT)).EndInit();
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView_LRU)).EndInit();
             this.panel_FIFO.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_FIFO)).EndInit();
             this.ThreadSwitch_GroupBox.ResumeLayout(false);
-            this.ThreadSwitch_GroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainFormBindingSource)).EndInit();
+            this.panel_ControlAll.ResumeLayout(false);
+            this.panel_ControlAll.PerformLayout();
+            this.panel_ControlOPT.ResumeLayout(false);
+            this.panel_ControlOPT.PerformLayout();
+            this.panel_ControlLRU.ResumeLayout(false);
+            this.panel_ControlLRU.PerformLayout();
+            this.panel_ControlFIFO.ResumeLayout(false);
+            this.panel_ControlFIFO.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -743,26 +944,37 @@ namespace OpreatingSystemClassDesign
         private System.Windows.Forms.Panel panel_FIFO;
         private System.Windows.Forms.DataGridView dataGridView_FIFO;
         private System.Windows.Forms.GroupBox ThreadSwitch_GroupBox;
-        private System.Windows.Forms.Button ALL_Pause;
-        private System.Windows.Forms.Button ALL_Start;
-        private System.Windows.Forms.Button OPT_Pause;
-        private System.Windows.Forms.Button OPT_Start;
-        private System.Windows.Forms.Button LRU_Pause;
-        private System.Windows.Forms.Button LRU_Start;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Button FIFO_Pause;
-        private System.Windows.Forms.Button FIFO_Start;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox GenerateLogicAddress;
         private System.Windows.Forms.Label FIFO_Result;
         private System.Windows.Forms.TextBox TLBTime_TextBox;
         private System.Windows.Forms.TextBox MemoryTime_TextBox;
         private System.Windows.Forms.TextBox PageFaultTime_TextBox;
-        private System.Windows.Forms.BindingSource mainFormBindingSource;
         private System.Windows.Forms.TrackBar AddressMaxTrack;
         private System.Windows.Forms.TextBox AddressMax_TextBox;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label OPT_Result;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.DataGridView dataGridView_OPT;
+        private System.Windows.Forms.Label LRU_Result;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.DataGridView dataGridView_LRU;
+        private System.Windows.Forms.Panel panel_ControlOPT;
+        private System.Windows.Forms.Button OPT_Pause;
+        private System.Windows.Forms.Button OPT_Start;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Panel panel_ControlLRU;
+        private System.Windows.Forms.Button LRU_Pause;
+        private System.Windows.Forms.Button LRU_Start;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Panel panel_ControlFIFO;
+        private System.Windows.Forms.Button FIFO_Pause;
+        private System.Windows.Forms.Button FIFO_Start;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel_ControlAll;
+        private System.Windows.Forms.Button ALL_Pause;
+        private System.Windows.Forms.Button ALL_Start;
+        private System.Windows.Forms.Label label16;
     }
 }

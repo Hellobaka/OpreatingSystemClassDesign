@@ -72,22 +72,59 @@ namespace OpreatingSystemClassDesign
         #endregion
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //根据默认添加驻留内存的页面
-            DataGridViewColumn column = new DataGridViewColumn()
+            DataGridView[] ls = { dataGridView_FIFO, dataGridView_LRU, dataGridView_OPT };
+            foreach (var item in ls)
             {
-                Width = 60,
-                Name = Guid.NewGuid().ToString(),
-                HeaderText = "页框号",
-                CellTemplate = new DataGridViewTextBoxCell()
-            };
-            dataGridView_FIFO.Columns.Add(column);
-            for (int i = 0; i < 4; i++)
-            {
-                dataGridView_FIFO.Rows.Add((i + 1).ToString());
+                //根据默认添加驻留内存的页面
+                DataGridViewColumn column = new DataGridViewColumn()
+                {
+                    Width = 60,
+                    Name = Guid.NewGuid().ToString(),
+                    HeaderText = "页框号",
+                    CellTemplate = new DataGridViewTextBoxCell()
+                };
+                item.Columns.Add(column);
+                for (int i = 0; i < 4; i++)
+                {
+                    item.Rows.Add((i + 1).ToString());
+                }
+                item.Rows.Add("缺页情况");
             }
-            dataGridView_FIFO.Rows.Add("缺页情况");
             //取消单元格的选中
             CellsUnselected();
+            Thread_FIFO = new Thread(() =>
+            {
+                MakeFIFO(out int pageFaultCount, out int timeSpent);
+                //显示最终结果
+                FIFO_Result.Invoke(new MethodInvoker(() =>
+                {
+                    FIFO_Result.Text = $"共用时间：{timeSpent}ms 缺页次数：{pageFaultCount} / {InputAddresses.Count} " +
+                            $"缺页率：{pageFaultCount / (double)InputAddresses.Count * 100:f2}%";
+                    EnableState(Models.ArithmeticType.FIFO);
+                }));
+            });
+            Thread_LRU = new Thread(() =>
+            {
+                MakeLRU(out int pageFaultCount, out int timeSpent);
+                //显示最终结果
+                LRU_Result.Invoke(new MethodInvoker(() =>
+                {
+                    LRU_Result.Text = $"共用时间：{timeSpent}ms 缺页次数：{pageFaultCount} / {InputAddresses.Count} " +
+                            $"缺页率：{pageFaultCount / (double)InputAddresses.Count * 100:f2}%";
+                    EnableState(Models.ArithmeticType.LRU);
+                }));
+            });
+            Thread_OPT = new Thread(() =>
+            {
+                MakeOPT(out int pageFaultCount, out int timeSpent);
+                //显示最终结果
+                OPT_Result.Invoke(new MethodInvoker(() =>
+                {
+                    OPT_Result.Text = $"共用时间：{timeSpent}ms 缺页次数：{pageFaultCount} / {InputAddresses.Count} " +
+                            $"缺页率：{pageFaultCount / (double)InputAddresses.Count * 100:f2}%";
+                    EnableState(Models.ArithmeticType.OPT);
+                }));
+            });
         }
         /// <summary>
         /// 取消单元格的选中
@@ -98,12 +135,22 @@ namespace OpreatingSystemClassDesign
             {
                 item.Selected = false;
             }
+            foreach (DataGridViewCell item in dataGridView_LRU.SelectedCells)
+            {
+                item.Selected = false;
+            }
+            foreach (DataGridViewCell item in dataGridView_OPT.SelectedCells)
+            {
+                item.Selected = false;
+            }
         }
         /// <summary>
         /// 随机生成序列
         /// </summary>
         private void RandomGenerate_Click(object sender, EventArgs e)
         {
+            if (Thread_FIFO.IsAlive || Thread_LRU.IsAlive || Thread_OPT.IsAlive) ;
+
             StringBuilder sb = new StringBuilder();
             Random rd = new Random();
             for (int i = 0; i < GeneratorNum; i++)
@@ -131,17 +178,32 @@ namespace OpreatingSystemClassDesign
             InputText.Text = sb.ToString();
             InputAddresses = Helper.ReadAddress(InputText.Text);
             //更新表格
-            UpdateDataGrid();
+            UpdateDataGrid(Models.ArithmeticType.FIFO);
+            UpdateDataGrid(Models.ArithmeticType.LRU);
+            UpdateDataGrid(Models.ArithmeticType.OPT);
         }
         /// <summary>
         /// 根据输入地址数组更新表格信息
         /// </summary>
-        private void UpdateDataGrid()
+        private void UpdateDataGrid(Models.ArithmeticType type)
         {
-            //除了第一列(页框号)之外移除其他列
-            while (dataGridView_FIFO.Columns.Count != 1)
+            DataGridView DGV = new DataGridView();
+            switch (type)
             {
-                dataGridView_FIFO.Columns.RemoveAt(1);
+                case Models.ArithmeticType.FIFO:
+                    DGV = dataGridView_FIFO;
+                    break;
+                case Models.ArithmeticType.LRU:
+                    DGV = dataGridView_LRU;
+                    break;
+                case Models.ArithmeticType.OPT:
+                    DGV = dataGridView_OPT;
+                    break;
+            }
+            //除了第一列(页框号)之外移除其他列
+            while (DGV.Columns.Count != 1)
+            {
+                DGV.Columns.RemoveAt(1);
             }
             //逻辑地址取页号
             List<int> tmpList = new List<int>();
@@ -159,7 +221,7 @@ namespace OpreatingSystemClassDesign
                     HeaderText = item.ToString("X0"),
                     CellTemplate = new DataGridViewTextBoxCell()
                 };
-                dataGridView_FIFO.Columns.Add(column);
+                DGV.Columns.Add(column);
             }
             CellsUnselected();
         }
@@ -236,7 +298,7 @@ namespace OpreatingSystemClassDesign
                     CellsUnselected();
                     break;
                 case "AddressMax_TextBox":
-                    TrackMoveByTextChanged(tb, AddressMaxTrack, Models.MoveMode.None,true);
+                    TrackMoveByTextChanged(tb, AddressMaxTrack, Models.MoveMode.None, true);
                     break;
             }
         }
@@ -246,11 +308,11 @@ namespace OpreatingSystemClassDesign
         /// <param name="tb">需要同步的文本框</param>
         /// <param name="tr">需要同步的滑块</param>
         /// <param name="mode">同步方式</param>
-        private void TrackMoveByTextChanged(TextBox tb, TrackBar tr, Models.MoveMode mode, bool HexFlag=false)
+        private void TrackMoveByTextChanged(TextBox tb, TrackBar tr, Models.MoveMode mode, bool HexFlag = false)
         {
             if (int.TryParse(tb.Text, out int value) || HexFlag)
             {
-                if(!int.TryParse(tb.Text,NumberStyles.HexNumber,null, out value))
+                if (HexFlag && !int.TryParse(tb.Text, NumberStyles.HexNumber, null, out value))
                 {
                     tb.Text = tr.Minimum.ToString();
                     return;
@@ -316,16 +378,56 @@ namespace OpreatingSystemClassDesign
                 }
             }
             //禁用时间设置以及其他设置
-            DisableState();
-            //重置算法进行步数
-            count_FIFO = 1;
-            //算法环境初始化
-            GlobalVariable.MemoryQueue_FIFO = new Queue<MemoryBlock>();
-            GlobalVariable.Memory_FIFO = new Dictionary<int, int>();
-            for (int i = 0; i < MemoryBlockNum; i++)
+            DisableState(Models.ArithmeticType.FIFO);
+            ArithmeticInit(Models.ArithmeticType.FIFO);
+            InputRandomOrDefault(Models.ArithmeticType.FIFO);
+
+            Thread_FIFO.Start();
+        }
+        /// <summary>
+        /// 算法环境初始化
+        /// </summary>
+        /// <param name="type">算法的类型</param>
+        private void ArithmeticInit(Models.ArithmeticType type)
+        {
+            switch (type)
             {
-                GlobalVariable.Memory_FIFO.Add(i + 1, -1);
+                case Models.ArithmeticType.FIFO:
+                    //重置算法进行步数
+                    count_FIFO = 1;
+                    //算法环境初始化
+                    GlobalVariable.MemoryQueue_FIFO = new Queue<MemoryBlock>();
+                    GlobalVariable.Memory_FIFO = new Dictionary<int, int>();
+                    for (int i = 0; i < MemoryBlockNum; i++)
+                    {
+                        GlobalVariable.Memory_FIFO.Add(i + 1, -1);
+                    }
+                    break;
+                case Models.ArithmeticType.LRU:
+                    count_LRU = 1;
+                    GlobalVariable.MemoryQueue_LRU = new Queue<MemoryBlock>();
+                    GlobalVariable.Memory_LRU = new Dictionary<int, int>();
+                    for (int i = 0; i < MemoryBlockNum; i++)
+                    {
+                        GlobalVariable.Memory_LRU.Add(i + 1, -1);
+                    }
+                    break;
+                case Models.ArithmeticType.OPT:
+                    count_OPT = 1;
+                    GlobalVariable.MemoryQueue_OPT = new Queue<MemoryBlock>();
+                    GlobalVariable.Memory_OPT = new Dictionary<int, int>();
+                    for (int i = 0; i < MemoryBlockNum; i++)
+                    {
+                        GlobalVariable.Memory_OPT.Add(i + 1, -1);
+                    }
+                    break;
             }
+        }
+        /// <summary>
+        /// 将输入地址数组默认读取或者是随机输出一个
+        /// </summary>
+        private void InputRandomOrDefault(Models.ArithmeticType type)
+        {
             //输入地址数组为空
             if (InputAddresses == null || InputAddresses.Count == 0)
             {
@@ -337,116 +439,227 @@ namespace OpreatingSystemClassDesign
                 else//文本框内有数据,直接读入
                 {
                     InputAddresses = Helper.ReadAddress(InputText.Text);
-                    UpdateDataGrid();
+                    UpdateDataGrid(type);
                 }
             }
-            //缺页次数
-            int pageFaultCount = 0;
-            //使用的时间
-            int timeSpent = 0;
-            Thread_FIFO = new Thread(() =>
-            {
-                foreach (var item in InputAddresses)
-                {
-                    //执行算法
-                    bool flag = Arithmetic.MakeFIFO(item, out int blockNum);
-                    //更新表格
-                    dataGridView_FIFO.Invoke(new MethodInvoker
-                        (() => UpdateDGV(dataGridView_FIFO, Models.ArithmeticType.FIFO, flag, blockNum)));
-                    Thread.Sleep(MemoryTime);
-                    Thread.Sleep(TLBTime);
-                    timeSpent += MemoryTime + TLBTime;
-                    if (flag)//缺页
-                    {
-                        pageFaultCount++;
-
-                        Thread.Sleep(PageFaultTime);
-                        Thread.Sleep(MemoryTime);
-                        Thread.Sleep(TLBTime);
-
-                        timeSpent += PageFaultTime;
-                        timeSpent += MemoryTime + TLBTime;
-                    }
-                }
-                //显示最终结果
-                groupBox1.Invoke(new MethodInvoker(() =>
-                {
-                    FIFO_Result.Text = $"共用时间：{timeSpent}ms 缺页次数：{pageFaultCount} / {InputAddresses.Count} " +
-                            $"缺页率：{pageFaultCount / (double)InputAddresses.Count * 100:f2}%";
-                    EnableState();
-                }));
-            });
-            Thread_FIFO.Start();
         }
+
+        private void MakeFIFO(out int pageFaultCount, out int timeSpent)
+        {
+            //缺页次数
+            pageFaultCount = 0;
+            //使用的时间
+            timeSpent = 0;
+            foreach (var item in InputAddresses)
+            {
+                //执行算法
+                bool flag = Arithmetic.MakeFIFO(item, out int blockNum);
+                //更新表格
+                dataGridView_FIFO.Invoke(new MethodInvoker
+                    (() => UpdateDGV(Models.ArithmeticType.FIFO, flag, blockNum)));
+                if (flag)
+                {
+                    pageFaultCount++;
+                }
+                timeSpent += ThreadSleepByArithmeticResult(flag);
+            }
+        }
+        private void MakeLRU(out int pageFaultCount, out int timeSpent)
+        {
+            //缺页次数
+            pageFaultCount = 0;
+            //使用的时间
+            timeSpent = 0;
+            foreach (var item in InputAddresses)
+            {
+                //执行算法
+                bool flag = Arithmetic.MakeLRU(item, out int blockNum);
+                //更新表格
+                dataGridView_LRU.Invoke(new MethodInvoker
+                    (() => UpdateDGV(Models.ArithmeticType.LRU, flag, blockNum)));
+                if (flag)
+                {
+                    pageFaultCount++;
+                }
+                timeSpent += ThreadSleepByArithmeticResult(flag);
+            }
+        }
+        private void MakeOPT(out int pageFaultCount, out int timeSpent)
+        {
+            //缺页次数
+            pageFaultCount = 0;
+            //使用的时间
+            timeSpent = 0;
+            for (int i = 0; i < InputAddresses.Count; i++)
+            {
+                //执行算法
+                bool flag = Arithmetic.MakeOPT(InputAddresses, i, out int blockNum);
+                //更新表格
+                dataGridView_OPT.Invoke(new MethodInvoker
+                    (() => UpdateDGV(Models.ArithmeticType.OPT, flag, blockNum)));
+                if (flag)
+                {
+                    pageFaultCount++;
+                }
+                timeSpent += ThreadSleepByArithmeticResult(flag);
+            }
+        }
+
+        private static int ThreadSleepByArithmeticResult(bool flag)
+        {
+            int timeSpent = 0;
+            Thread.Sleep(MemoryTime);
+            Thread.Sleep(TLBTime);
+            timeSpent += MemoryTime + TLBTime;
+            if (flag)//缺页
+            {
+                Thread.Sleep(PageFaultTime);
+                Thread.Sleep(MemoryTime);
+                Thread.Sleep(TLBTime);
+
+                timeSpent += PageFaultTime;
+                timeSpent += MemoryTime + TLBTime;
+            }
+            return timeSpent;
+        }
+
         /// <summary>
         /// 禁用时间设置以及其他设置
         /// </summary>
-        private void DisableState()
+        private void DisableState(Models.ArithmeticType type)
         {
             TimeSetting_GroupBox.Enabled = false;
             OtherSettings_GroupBox.Enabled = false;
-            FIFO_Start.Enabled = false;
-            FIFO_Pause.Enabled = true;
-            FIFO_Result.Visible = false;
+            InputText.Enabled = false;
+            RandomGenerate.Enabled = false;
+            switch (type)
+            {
+                case Models.ArithmeticType.FIFO:
+                    FIFO_Start.Enabled = false;
+                    FIFO_Pause.Enabled = true;
+                    FIFO_Result.Visible = false;
+                    panel_ControlLRU.Enabled = false;
+                    panel_ControlOPT.Enabled = false;
+                    panel_ControlAll.Enabled = false;
+                    break;
+                case Models.ArithmeticType.LRU:
+                    LRU_Start.Enabled = false;
+                    LRU_Pause.Enabled = true;
+                    LRU_Result.Visible = false;
+                    panel_ControlFIFO.Enabled = false;
+                    panel_ControlOPT.Enabled = false;
+                    panel_ControlAll.Enabled = false;
+                    break;
+                case Models.ArithmeticType.OPT:
+                    OPT_Start.Enabled = false;
+                    OPT_Pause.Enabled = true;
+                    OPT_Result.Visible = false;
+                    panel_ControlFIFO.Enabled = false;
+                    panel_ControlLRU.Enabled = false;
+                    panel_ControlAll.Enabled = false;
+                    break;
+            }
         }
         /// <summary>
         /// 恢复设置
         /// </summary>
-        private void EnableState()
+        private void EnableState(Models.ArithmeticType type)
         {
             TimeSetting_GroupBox.Enabled = true;
             OtherSettings_GroupBox.Enabled = true;
-            FIFO_Start.Enabled = true;
-            FIFO_Pause.Enabled = false;
-            FIFO_Result.Visible = true;
+
+            switch (type)
+            {
+                case Models.ArithmeticType.FIFO:
+                    FIFO_Start.Enabled = true;
+                    FIFO_Pause.Enabled = false;
+                    FIFO_Result.Visible = true;
+                    panel_ControlLRU.Enabled = true;
+                    panel_ControlOPT.Enabled = true;
+                    panel_ControlAll.Enabled = true;
+                    break;
+                case Models.ArithmeticType.LRU:
+                    LRU_Start.Enabled = true;
+                    LRU_Pause.Enabled = false;
+                    LRU_Result.Visible = true;
+                    panel_ControlFIFO.Enabled = true;
+                    panel_ControlOPT.Enabled = true;
+                    panel_ControlAll.Enabled = true;
+                    break;
+                case Models.ArithmeticType.OPT:
+                    OPT_Start.Enabled = true;
+                    OPT_Pause.Enabled = false;
+                    OPT_Result.Visible = true;
+                    panel_ControlFIFO.Enabled = true;
+                    panel_ControlLRU.Enabled = true;
+                    panel_ControlAll.Enabled = true;
+                    break;
+            }
+            InputText.Enabled = true;
+            RandomGenerate.Enabled = true;
         }
         /// <summary>
         /// 更新表格
         /// </summary>
-        /// <param name="DGV">需要更新的表格体</param>
         /// <param name="type">算法类型</param>
         /// <param name="flag">是否缺页</param>
         /// <param name="blockNum">需要进行高亮的内存块号</param>
-        private void UpdateDGV(DataGridView DGV, Models.ArithmeticType type, bool flag, int blockNum = 0)
+        private void UpdateDGV(Models.ArithmeticType type, bool flag, int blockNum = 0)
         {
             int count = 0;
+            int count_Type = 0;
+            DataGridView DGV = new DataGridView();
+            Dictionary<int, int> Memory_Type = new Dictionary<int, int>();
             switch (type)
             {
                 case Models.ArithmeticType.FIFO:
-                    //队列中有效的个数
-                    foreach (var item in GlobalVariable.Memory_FIFO)
-                    {
-                        if (item.Value != -1)
-                            count++;
-                    }
-                    //读取算法内存
-                    for (int i = 0; i < MemoryBlockNum; i++)
-                    {
-                        if (i < count)//仍旧是有效的值,将内存的值写入表格
-                        {
-                            DGV.Rows[i].Cells[count_FIFO].Value = GlobalVariable.Memory_FIFO[i + 1].ToString("X0");
-                        }
-                        if (i == blockNum - 1)//为需要高亮的块号
-                        {
-                            DGV.Rows[i].Cells[count_FIFO].Style.ForeColor = Color.Red;
-                        }
-                    }
-                    if (flag)//缺页标志
-                    {
-                        DGV.Rows[MemoryBlockNum].Cells[count_FIFO].Value = "√";
-                    }
-                    else
-                    {
-                        DGV.Rows[MemoryBlockNum].Cells[count_FIFO].Value = "×";
-                    }
+                    Memory_Type = GlobalVariable.Memory_FIFO;
                     count_FIFO++;
+                    count_Type = count_FIFO - 1;
+                    DGV = dataGridView_FIFO;
                     break;
                 case Models.ArithmeticType.LRU:
-
+                    Memory_Type = GlobalVariable.Memory_LRU;
+                    count_LRU++;
+                    count_Type = count_LRU - 1;
+                    DGV = dataGridView_LRU;
                     break;
                 case Models.ArithmeticType.OPT:
-
+                    Memory_Type = GlobalVariable.Memory_OPT;
+                    count_OPT++;
+                    count_Type = count_OPT - 1;
+                    DGV = dataGridView_OPT;
                     break;
+            }
+            //队列中有效的个数
+            foreach (var item in Memory_Type)
+            {
+                if (item.Value != -1)
+                    count++;
+            }
+            //读取算法内存
+            for (int i = 0; i < MemoryBlockNum; i++)
+            {
+                if (i < count)//仍旧是有效的值,将内存的值写入表格
+                {
+                    DGV.Rows[i].Cells[count_Type].Value = Memory_Type[i + 1].ToString("X0");
+                }
+                if (i == blockNum - 1)//为需要高亮的块号
+                {
+                    DGV.Rows[i].Cells[count_Type].Style.ForeColor = Color.Red;
+                }
+                if (count_Type >= 28)
+                {
+                    DGV.FirstDisplayedCell = DGV.Rows[i].Cells[count_Type - 28];
+                }
+            }
+            if (flag)//缺页标志
+            {
+                DGV.Rows[MemoryBlockNum].Cells[count_Type].Value = "√";
+            }
+            else
+            {
+                DGV.Rows[MemoryBlockNum].Cells[count_Type].Value = "×";
             }
         }
         /// <summary>
@@ -457,7 +670,9 @@ namespace OpreatingSystemClassDesign
             if (e.KeyChar == '\r')
             {
                 InputAddresses = Helper.ReadAddress(InputText.Text);
-                UpdateDataGrid();
+                UpdateDataGrid(Models.ArithmeticType.FIFO);
+                UpdateDataGrid(Models.ArithmeticType.LRU);
+                UpdateDataGrid(Models.ArithmeticType.OPT);
             }
         }
         /// <summary>
@@ -482,6 +697,91 @@ namespace OpreatingSystemClassDesign
                 Thread_FIFO.Resume();
                 FIFO_Pause.Text = "暂停";
             }
+        }
+
+        private void LRU_Start_Click(object sender, EventArgs e)
+        {
+            //将内容清空
+            foreach (DataGridViewRow item in dataGridView_LRU.Rows)
+            {
+                for (int i = 1; i < item.Cells.Count; i++)
+                {
+                    item.Cells[i].Value = "";
+                }
+            }
+            //禁用时间设置以及其他设置
+            DisableState(Models.ArithmeticType.LRU);
+            ArithmeticInit(Models.ArithmeticType.LRU);
+            InputRandomOrDefault(Models.ArithmeticType.LRU);
+            Thread_LRU.Start();
+        }
+
+        private void LRU_Pause_Click(object sender, EventArgs e)
+        {
+            if (Thread_LRU.ThreadState == ThreadState.WaitSleepJoin)
+            {
+                Thread_LRU.Suspend();
+                LRU_Pause.Text = "继续";
+            }
+            else
+            {
+                Thread_LRU.Resume();
+                LRU_Pause.Text = "暂停";
+            }
+        }
+
+        private void OPT_Pause_Click(object sender, EventArgs e)
+        {
+            if (Thread_OPT.ThreadState == ThreadState.WaitSleepJoin)
+            {
+                Thread_OPT.Suspend();
+                OPT_Pause.Text = "继续";
+            }
+            else
+            {
+                Thread_OPT.Resume();
+                OPT_Pause.Text = "暂停";
+            }
+        }
+
+        private void ALL_Pause_Click(object sender, EventArgs e)
+        {
+            if (Thread_OPT.ThreadState == ThreadState.WaitSleepJoin)
+            {
+                Thread_FIFO.Suspend();
+                Thread_LRU.Suspend();
+                Thread_OPT.Suspend();
+                OPT_Pause.Text = "继续";
+            }
+            else
+            {
+                Thread_FIFO.Resume();
+                Thread_LRU.Resume();
+                Thread_OPT.Resume();
+                OPT_Pause.Text = "暂停";
+            }
+        }
+
+        private void OPT_Start_Click(object sender, EventArgs e)
+        {
+            //将内容清空
+            foreach (DataGridViewRow item in dataGridView_OPT.Rows)
+            {
+                for (int i = 1; i < item.Cells.Count; i++)
+                {
+                    item.Cells[i].Value = "";
+                }
+            }
+            //禁用时间设置以及其他设置
+            DisableState(Models.ArithmeticType.OPT);
+            ArithmeticInit(Models.ArithmeticType.OPT);
+            InputRandomOrDefault(Models.ArithmeticType.OPT);
+            Thread_OPT.Start();
+        }
+
+        private void ALL_Start_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
