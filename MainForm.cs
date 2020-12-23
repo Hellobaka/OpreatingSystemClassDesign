@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Newtonsoft.Json.Linq;
 
 namespace OpreatingSystemClassDesign
 {
@@ -92,6 +94,7 @@ namespace OpreatingSystemClassDesign
             }
             //取消单元格的选中
             CellsUnselected();
+            openFileDialog_Main.InitialDirectory = Application.StartupPath;
         }
         /// <summary>
         /// 取消单元格的选中
@@ -226,7 +229,7 @@ namespace OpreatingSystemClassDesign
                     break;
                 case "MemoryBlockTrack":
                     MemoryBlockNum = tb.Value;
-                    MemroyBlockNum_TextBox.Text = tb.Value.ToString();
+                    MemoryBlockNum_TextBox.Text = tb.Value.ToString();
                     break;
                 case "AddressMaxTrack":
                     AddressMax = tb.Value;
@@ -259,7 +262,7 @@ namespace OpreatingSystemClassDesign
                     TrackMoveByTextChanged(tb, GeneratorNumTarck, Models.MoveMode.None);
                     GeneratorNum = GeneratorNumTarck.Value;
                     break;
-                case "MemroyBlockNum_TextBox":
+                case "MemoryBlockNum_TextBox":
                     TrackMoveByTextChanged(tb, MemoryBlockTrack, Models.MoveMode.MinimalMode);
                     MemoryBlockNum = MemoryBlockTrack.Value;
                     //改变驻留内存块数
@@ -788,9 +791,9 @@ namespace OpreatingSystemClassDesign
         {
             if (Thread_FIFO.ThreadState == ThreadState.WaitSleepJoin
                 || Thread_FIFO.ThreadState == ThreadState.Running)
-            {                
+            {
                 Thread_FIFO.Suspend();
-                if(Thread_LRU.IsAlive)
+                if (Thread_LRU.IsAlive)
                     Thread_LRU.Suspend();
                 if (Thread_OPT.IsAlive)
                     Thread_OPT.Suspend();
@@ -845,6 +848,173 @@ namespace OpreatingSystemClassDesign
             Thread_FIFO.Start();
             Thread_LRU.Start();
             Thread_OPT.Start();
+        }
+
+        private void 保存ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveConfig();
+            MessageBox.Show("保存完毕");
+        }
+
+        private void SaveConfig()
+        {
+            JObject json = new JObject
+            {
+                {"TimeSettings",new JObject
+                    {
+                        {"PageFault",PageFaultTime },
+                        {"MemoryTime",MemoryTime },
+                        {"TLBTime",TLBTime }
+                    }
+                },
+                {
+                    "OtherSettings",new JObject
+                    {
+                        {"MemoryBlockNum",MemoryBlockNum},
+                        {"GeneratorNum",GeneratorNum },
+                        {"AddressMax",AddressMax.ToString("X0") },
+                        {"GenerateLogicAddress",GenerateLogicAddress.Checked }
+                    }
+                },
+                {"InputAddresses",InputText.Text},
+                {
+                    "FIFOState",new JObject()
+                    {
+                        { "Header",""},
+                        { "Content",new JArray() },
+                        {"ResultVisable",FIFO_Result.Visible },
+                        {"ResultContent",FIFO_Result.Text }
+                    }
+                },
+                {
+                    "LRUState",new JObject()
+                    {
+                        { "Header",""},
+                        { "Content",new JArray() },
+                        {"ResultVisable",LRU_Result.Visible },
+                        {"ResultContent",LRU_Result.Text }
+                    }
+                },
+                {
+                    "OPTState",new JObject()
+                    {
+                        { "Header",""},
+                        { "Content",new JArray() },
+                        {"ResultVisable",OPT_Result.Visible },
+                        {"ResultContent",OPT_Result.Text }
+                    }
+                }
+            };
+            DataGridView[] ls = { dataGridView_FIFO, dataGridView_LRU, dataGridView_OPT };
+            string[] nameLs = { "FIFOState", "LRUState", "OPTState" };
+            int index = 0;
+            foreach (var dgv in ls)
+            {
+                StringBuilder headerText = new StringBuilder();
+                foreach (DataGridViewColumn item in dgv.Columns)
+                {
+                    headerText.Append(item.HeaderText);
+                    headerText.Append("-");
+                }
+                headerText.Remove(headerText.Length - 1, 1);
+                json[nameLs[index]]["Header"] = headerText.ToString();
+
+                for (int i = 0; i < dgv.Rows.Count; i++)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    foreach (DataGridViewCell item in dgv.Rows[i].Cells)
+                    {
+                        sb.Append(item.Value);
+                        if (item.Value == null || item.Value.ToString() == "")
+                        {
+                            sb.Append(" ");
+                        }
+                        if (item.Style.ForeColor == Color.Red)
+                        {
+                            sb.Append("r");
+                        }
+                        sb.Append("-");
+                    }
+                    sb.Remove(sb.Length - 1, 1);
+                    (json[nameLs[index]]["Content"] as JArray).Add(sb.ToString());
+                }
+                index++;
+            }
+            File.WriteAllText($"{DateTime.Now:yyyy-MM-dd HH-mm-ss}.OSCD", json.ToString());
+        }
+
+        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void 打开ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("这样操作将会覆盖目前界面的设置，确认要打开之前的存档吗？"
+                , "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            {
+                openFileDialog_Main.ShowDialog();
+                string filePath = openFileDialog_Main.FileName;
+                if (string.IsNullOrEmpty(filePath))
+                    return;
+                ReadConfig(filePath);
+            }
+        }
+
+        private void ReadConfig(string filePath)
+        {
+            JObject json = JObject.Parse(File.ReadAllText(filePath));
+            PageFaultTime_TextBox.Text = json["TimeSettings"]["PageFault"].ToString();
+            MemoryTime_TextBox.Text = json["TimeSettings"]["MemoryTime"].ToString();
+            TLBTime_TextBox.Text = json["TimeSettings"]["TLBTime"].ToString();
+
+            MemoryBlockNum_TextBox.Text = json["OtherSettings"]["MemoryBlockNum"].ToString();
+            GeneratorNum_TextBox.Text = json["OtherSettings"]["GeneratorNum"].ToString();
+            AddressMax_TextBox.Text = json["OtherSettings"]["AddressMax"].ToString();
+            GenerateLogicAddress.Checked = json["OtherSettings"]["GenerateLogicAddress"].ToObject<bool>();
+
+            InputText.Text = json["InputAddresses"].ToString();
+
+            DataGridView[] ls = { dataGridView_FIFO, dataGridView_LRU, dataGridView_OPT };
+            string[] nameLs = { "FIFOState", "LRUState", "OPTState" };
+            Label[] labelLs = { FIFO_Result, LRU_Result, OPT_Result };
+            for (int i = 0; i < 3; i++)
+            {
+                ls[i].Columns.Clear();
+                string headerReader = json[nameLs[i]]["Header"].ToString();
+                bool first = true;
+                foreach (var item in headerReader.Split('-'))
+                {
+                    DataGridViewColumn column = new DataGridViewColumn
+                    {
+                        HeaderText = item,
+                        Width = first ? 60 : 30
+                    };
+                    if (first) first = false;
+                    ls[i].Columns.Add(column);
+                }
+                foreach (var item in json[nameLs[i]]["Content"] as JArray)
+                {
+                    DataGridViewRow row = new DataGridViewRow();
+                    foreach (var content in item.ToString().Split('-'))
+                    {
+                        DataGridViewTextBoxCell cell = new DataGridViewTextBoxCell
+                        {
+                            Value = content.Replace("r", ""),
+                        };
+                        cell.Style.ForeColor = content.Contains("r") ? Color.Red : Color.Black;
+                        row.Cells.Add(cell);
+                    }
+                    ls[i].Rows.Add(row);
+                }
+                labelLs[i].Visible = json[nameLs[i]]["ResultVisable"].ToObject<bool>();
+                labelLs[i].Text = json[nameLs[i]]["ResultContent"].ToString();
+            }
+        }
+
+        private void 重置界面ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
