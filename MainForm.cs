@@ -1011,10 +1011,5 @@ namespace OpreatingSystemClassDesign
                 labelLs[i].Text = json[nameLs[i]]["ResultContent"].ToString();
             }
         }
-
-        private void 重置界面ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
