@@ -45,6 +45,10 @@ namespace OpreatingSystemClassDesign
         /// OPT算法已经进行的步数
         /// </summary>
         private int count_OPT = 1;
+        /// <summary>
+        /// 启动全部线程的标志
+        /// </summary>
+        private bool AllThread_Flag = false;
         #endregion
         #region ---公有静态变量---
         /// <summary>
@@ -353,6 +357,7 @@ namespace OpreatingSystemClassDesign
         /// <param name="e"></param>
         private void FIFO_Start_Click(object sender, EventArgs e)
         {
+            AllThread_Flag = false;
             //将内容清空
             foreach (DataGridViewRow item in dataGridView_FIFO.Rows)
             {
@@ -608,7 +613,7 @@ namespace OpreatingSystemClassDesign
                     panel_ControlLRU.Enabled = true;
                     panel_ControlOPT.Enabled = true;
                     panel_ControlAll.Enabled = true;
-                    if (!Thread_LRU.IsAlive && !Thread_OPT.IsAlive)//适用于全部算法线程启用时,判断所有线程是否结束
+                    if (AllThread_Flag && (!Thread_LRU.IsAlive && !Thread_OPT.IsAlive))//适用于全部算法线程启用时,判断所有线程是否结束
                     {
                         ALL_Start.Enabled = true;
                         ALL_Pause.Enabled = false;
@@ -621,7 +626,7 @@ namespace OpreatingSystemClassDesign
                     panel_ControlFIFO.Enabled = true;
                     panel_ControlOPT.Enabled = true;
                     panel_ControlAll.Enabled = true;
-                    if (!Thread_FIFO.IsAlive && !Thread_OPT.IsAlive)
+                    if (AllThread_Flag && (!Thread_FIFO.IsAlive && !Thread_OPT.IsAlive))
                     {
                         ALL_Start.Enabled = true;
                         ALL_Pause.Enabled = false;
@@ -635,7 +640,7 @@ namespace OpreatingSystemClassDesign
                     panel_ControlFIFO.Enabled = true;
                     panel_ControlLRU.Enabled = true;
                     panel_ControlAll.Enabled = true;
-                    if (!Thread_FIFO.IsAlive && !Thread_LRU.IsAlive)
+                    if (AllThread_Flag && (!Thread_FIFO.IsAlive && !Thread_LRU.IsAlive))
                     {
                         ALL_Start.Enabled = true;
                         ALL_Pause.Enabled = false;
@@ -654,7 +659,7 @@ namespace OpreatingSystemClassDesign
         private void UpdateDGV(Models.ArithmeticType type, bool flag, int blockNum = 0)
         {
             //队列中有效的个数
-            int count = 0;            
+            int count = 0;
             int count_Type = 0;
             DataGridView DGV = new DataGridView();
             Dictionary<int, int> Memory_Type = new Dictionary<int, int>();
@@ -678,7 +683,7 @@ namespace OpreatingSystemClassDesign
                     count_Type = count_OPT - 1;
                     DGV = dataGridView_OPT;
                     break;
-            }            
+            }
             foreach (var item in Memory_Type)
             {
                 if (item.Value != -1)
@@ -741,6 +746,7 @@ namespace OpreatingSystemClassDesign
 
         private void LRU_Start_Click(object sender, EventArgs e)
         {
+            AllThread_Flag = false;
             //将内容清空
             foreach (DataGridViewRow item in dataGridView_LRU.Rows)
             {
@@ -808,6 +814,7 @@ namespace OpreatingSystemClassDesign
 
         private void OPT_Start_Click(object sender, EventArgs e)
         {
+            AllThread_Flag = false;
             //将内容清空
             foreach (DataGridViewRow item in dataGridView_OPT.Rows)
             {
@@ -827,6 +834,7 @@ namespace OpreatingSystemClassDesign
 
         private void ALL_Start_Click(object sender, EventArgs e)
         {
+            AllThread_Flag = true;
             DataGridView[] ls = { dataGridView_FIFO, dataGridView_LRU, dataGridView_OPT };
             foreach (var item in ls)
             {

@@ -24,7 +24,6 @@ namespace OpreatingSystemClassDesign
         /// FIFO内存页框内容,未分配内容写-1
         /// </summary>
         public static Dictionary<int, int> Memory_FIFO = new Dictionary<int, int>();
-
         /// <summary>
         /// LRU内存处理队列
         /// </summary>
