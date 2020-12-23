@@ -151,7 +151,7 @@ namespace OpreatingSystemClassDesign
             UpdateDataGrid(Models.ArithmeticType.OPT);
         }
         /// <summary>
-        /// 根据输入地址数组更新表格表头
+        /// 根据输入地址数组创建新的表格表头
         /// </summary>
         private void UpdateDataGrid(Models.ArithmeticType type)
         {
@@ -291,6 +291,7 @@ namespace OpreatingSystemClassDesign
         /// <param name="tb">需要同步的文本框</param>
         /// <param name="tr">需要同步的滑块</param>
         /// <param name="mode">同步方式</param>
+        /// <param name="HexFlag">十六进制标志</param>
         private void TrackMoveByTextChanged(TextBox tb, TrackBar tr, Models.MoveMode mode, bool HexFlag = false)
         {
             if (int.TryParse(tb.Text, out int value) || HexFlag)
@@ -368,7 +369,7 @@ namespace OpreatingSystemClassDesign
             Thread_FIFO.Start();
         }
         /// <summary>
-        /// 算法环境初始化
+        /// 算法环境初始化,进行内存队列的清空、内存树的初始化以及算法线程的实例化
         /// </summary>
         /// <param name="type">算法的类型</param>
         private void ArithmeticInit(Models.ArithmeticType type)
@@ -385,6 +386,7 @@ namespace OpreatingSystemClassDesign
                     {
                         GlobalVariable.Memory_FIFO.Add(i + 1, -1);
                     }
+                    //算法线程实例化
                     Thread_FIFO = new Thread(() =>
                     {
                         MakeFIFO(out int pageFaultCount, out int timeSpent);
@@ -408,7 +410,6 @@ namespace OpreatingSystemClassDesign
                     Thread_LRU = new Thread(() =>
                     {
                         MakeLRU(out int pageFaultCount, out int timeSpent);
-                        //显示最终结果
                         LRU_Result.Invoke(new MethodInvoker(() =>
                         {
                             LRU_Result.Text = $"共用时间：{timeSpent}ms 缺页次数：{pageFaultCount} / {InputAddresses.Count} " +
@@ -428,7 +429,6 @@ namespace OpreatingSystemClassDesign
                     Thread_OPT = new Thread(() =>
                     {
                         MakeOPT(out int pageFaultCount, out int timeSpent);
-                        //显示最终结果
                         OPT_Result.Invoke(new MethodInvoker(() =>
                         {
                             OPT_Result.Text = $"共用时间：{timeSpent}ms 缺页次数：{pageFaultCount} / {InputAddresses.Count} " +
@@ -437,7 +437,7 @@ namespace OpreatingSystemClassDesign
                         }));
                     });
                     break;
-                case Models.ArithmeticType.All:
+                case Models.ArithmeticType.All://所有算法同时进行,依次进行初始化
                     ArithmeticInit(Models.ArithmeticType.FIFO);
                     ArithmeticInit(Models.ArithmeticType.LRU);
                     ArithmeticInit(Models.ArithmeticType.OPT);
@@ -486,15 +486,11 @@ namespace OpreatingSystemClassDesign
         }
         private void MakeLRU(out int pageFaultCount, out int timeSpent)
         {
-            //缺页次数
             pageFaultCount = 0;
-            //使用的时间
             timeSpent = 0;
             foreach (var item in InputAddresses)
             {
-                //执行算法
                 bool flag = Arithmetic.MakeLRU(item, out int blockNum);
-                //更新表格
                 dataGridView_LRU.Invoke(new MethodInvoker
                     (() => UpdateDGV(Models.ArithmeticType.LRU, flag, blockNum)));
                 if (flag)
@@ -506,15 +502,11 @@ namespace OpreatingSystemClassDesign
         }
         private void MakeOPT(out int pageFaultCount, out int timeSpent)
         {
-            //缺页次数
             pageFaultCount = 0;
-            //使用的时间
             timeSpent = 0;
             for (int i = 0; i < InputAddresses.Count; i++)
             {
-                //执行算法
                 bool flag = Arithmetic.MakeOPT(InputAddresses, i, out int blockNum);
-                //更新表格
                 dataGridView_OPT.Invoke(new MethodInvoker
                     (() => UpdateDGV(Models.ArithmeticType.OPT, flag, blockNum)));
                 if (flag)
@@ -524,7 +516,11 @@ namespace OpreatingSystemClassDesign
                 timeSpent += ThreadSleepByArithmeticResult(flag);
             }
         }
-
+        /// <summary>
+        /// 线程休眠处理
+        /// </summary>
+        /// <param name="flag">缺页标志</param>
+        /// <returns>本次休眠时长</returns>
         private static int ThreadSleepByArithmeticResult(bool flag)
         {
             int timeSpent = 0;
@@ -554,6 +550,7 @@ namespace OpreatingSystemClassDesign
             RandomGenerate.Enabled = false;
             switch (type)
             {
+                //将输入序列、随机生成序列按钮、时间设置组、杂项设置组以及除了本算法之外的控制按钮全部禁用
                 case Models.ArithmeticType.FIFO:
                     FIFO_Start.Enabled = false;
                     FIFO_Pause.Enabled = true;
@@ -593,8 +590,9 @@ namespace OpreatingSystemClassDesign
             }
         }
         /// <summary>
-        /// 恢复设置
+        /// 恢复设置启用状态
         /// </summary>
+        /// <param name="type">算法类型</param>
         private void EnableState(Models.ArithmeticType type)
         {
             TimeSetting_GroupBox.Enabled = true;
@@ -606,10 +604,11 @@ namespace OpreatingSystemClassDesign
                     FIFO_Start.Enabled = true;
                     FIFO_Pause.Enabled = false;
                     FIFO_Result.Visible = true;
+
                     panel_ControlLRU.Enabled = true;
                     panel_ControlOPT.Enabled = true;
                     panel_ControlAll.Enabled = true;
-                    if (!Thread_LRU.IsAlive && !Thread_OPT.IsAlive)
+                    if (!Thread_LRU.IsAlive && !Thread_OPT.IsAlive)//适用于全部算法线程启用时,判断所有线程是否结束
                     {
                         ALL_Start.Enabled = true;
                         ALL_Pause.Enabled = false;
@@ -641,21 +640,21 @@ namespace OpreatingSystemClassDesign
                         ALL_Start.Enabled = true;
                         ALL_Pause.Enabled = false;
                     }
-
                     break;
             }
             InputText.Enabled = true;
             RandomGenerate.Enabled = true;
         }
         /// <summary>
-        /// 更新表格
+        /// 读取内存树,并将其中的内容更新至表格中 算法执行的步数的列 中
         /// </summary>
         /// <param name="type">算法类型</param>
         /// <param name="flag">是否缺页</param>
         /// <param name="blockNum">需要进行高亮的内存块号</param>
         private void UpdateDGV(Models.ArithmeticType type, bool flag, int blockNum = 0)
         {
-            int count = 0;
+            //队列中有效的个数
+            int count = 0;            
             int count_Type = 0;
             DataGridView DGV = new DataGridView();
             Dictionary<int, int> Memory_Type = new Dictionary<int, int>();
@@ -679,8 +678,7 @@ namespace OpreatingSystemClassDesign
                     count_Type = count_OPT - 1;
                     DGV = dataGridView_OPT;
                     break;
-            }
-            //队列中有效的个数
+            }            
             foreach (var item in Memory_Type)
             {
                 if (item.Value != -1)
@@ -855,7 +853,9 @@ namespace OpreatingSystemClassDesign
             SaveConfig();
             MessageBox.Show("保存完毕");
         }
-
+        /// <summary>
+        /// 写配置,文件名为当前时间,格式为json
+        /// </summary>
         private void SaveConfig()
         {
             JObject json = new JObject
@@ -872,7 +872,7 @@ namespace OpreatingSystemClassDesign
                     {
                         {"MemoryBlockNum",MemoryBlockNum},
                         {"GeneratorNum",GeneratorNum },
-                        {"AddressMax",AddressMax.ToString("X0") },
+                        {"AddressMax",AddressMax.ToString("X0") },//16进制
                         {"GenerateLogicAddress",GenerateLogicAddress.Checked }
                     }
                 },
@@ -905,31 +905,33 @@ namespace OpreatingSystemClassDesign
                     }
                 }
             };
+            //控件放入数组,方便循环操作
             DataGridView[] ls = { dataGridView_FIFO, dataGridView_LRU, dataGridView_OPT };
             string[] nameLs = { "FIFOState", "LRUState", "OPTState" };
             int index = 0;
             foreach (var dgv in ls)
             {
+                //标题行处理
                 StringBuilder headerText = new StringBuilder();
                 foreach (DataGridViewColumn item in dgv.Columns)
                 {
                     headerText.Append(item.HeaderText);
                     headerText.Append("-");
                 }
-                headerText.Remove(headerText.Length - 1, 1);
+                headerText.Remove(headerText.Length - 1, 1);//抹去末尾的-
                 json[nameLs[index]]["Header"] = headerText.ToString();
-
+                //行处理,放入JArray (json数组)
                 for (int i = 0; i < dgv.Rows.Count; i++)
                 {
                     StringBuilder sb = new StringBuilder();
                     foreach (DataGridViewCell item in dgv.Rows[i].Cells)
                     {
                         sb.Append(item.Value);
-                        if (item.Value == null || item.Value.ToString() == "")
+                        if (item.Value == null || item.Value.ToString() == "")//是空块
                         {
                             sb.Append(" ");
                         }
-                        if (item.Style.ForeColor == Color.Red)
+                        if (item.Style.ForeColor == Color.Red)//高亮块
                         {
                             sb.Append("r");
                         }
@@ -953,6 +955,7 @@ namespace OpreatingSystemClassDesign
             if (MessageBox.Show("这样操作将会覆盖目前界面的设置，确认要打开之前的存档吗？"
                 , "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
+                //呼起文件选择框
                 openFileDialog_Main.ShowDialog();
                 string filePath = openFileDialog_Main.FileName;
                 if (string.IsNullOrEmpty(filePath))
@@ -960,28 +963,35 @@ namespace OpreatingSystemClassDesign
                 ReadConfig(filePath);
             }
         }
-
+        /// <summary>
+        /// 从文件中读取配置，并将全部界面元素更改
+        /// </summary>
+        /// <param name="filePath"></param>
         private void ReadConfig(string filePath)
         {
             JObject json = JObject.Parse(File.ReadAllText(filePath));
+            //时间设定部分
             PageFaultTime_TextBox.Text = json["TimeSettings"]["PageFault"].ToString();
             MemoryTime_TextBox.Text = json["TimeSettings"]["MemoryTime"].ToString();
             TLBTime_TextBox.Text = json["TimeSettings"]["TLBTime"].ToString();
-
+            //杂项设定部分
             MemoryBlockNum_TextBox.Text = json["OtherSettings"]["MemoryBlockNum"].ToString();
             GeneratorNum_TextBox.Text = json["OtherSettings"]["GeneratorNum"].ToString();
             AddressMax_TextBox.Text = json["OtherSettings"]["AddressMax"].ToString();
             GenerateLogicAddress.Checked = json["OtherSettings"]["GenerateLogicAddress"].ToObject<bool>();
-
+            //序列输入框
             InputText.Text = json["InputAddresses"].ToString();
-
+            //算法内容展示部分
+            //控件放入数组方便循环操作
             DataGridView[] ls = { dataGridView_FIFO, dataGridView_LRU, dataGridView_OPT };
             string[] nameLs = { "FIFOState", "LRUState", "OPTState" };
             Label[] labelLs = { FIFO_Result, LRU_Result, OPT_Result };
             for (int i = 0; i < 3; i++)
             {
                 ls[i].Columns.Clear();
+                //读取标题行
                 string headerReader = json[nameLs[i]]["Header"].ToString();
+                //由于表格的第一列与其他列的宽度不一样,需要进行区别
                 bool first = true;
                 foreach (var item in headerReader.Split('-'))
                 {
@@ -993,6 +1003,7 @@ namespace OpreatingSystemClassDesign
                     if (first) first = false;
                     ls[i].Columns.Add(column);
                 }
+                //表格行内容
                 foreach (var item in json[nameLs[i]]["Content"] as JArray)
                 {
                     DataGridViewRow row = new DataGridViewRow();
@@ -1002,11 +1013,13 @@ namespace OpreatingSystemClassDesign
                         {
                             Value = content.Replace("r", ""),
                         };
+                        //高亮字符
                         cell.Style.ForeColor = content.Contains("r") ? Color.Red : Color.Black;
                         row.Cells.Add(cell);
                     }
                     ls[i].Rows.Add(row);
                 }
+                //显示缺页率等内容的标签
                 labelLs[i].Visible = json[nameLs[i]]["ResultVisable"].ToObject<bool>();
                 labelLs[i].Text = json[nameLs[i]]["ResultContent"].ToString();
             }
