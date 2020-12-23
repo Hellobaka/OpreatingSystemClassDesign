@@ -12,7 +12,8 @@ namespace OpreatingSystemClassDesign
         {
             FIFO,
             LRU,
-            OPT
+            OPT,
+            All
         }
     }
 }

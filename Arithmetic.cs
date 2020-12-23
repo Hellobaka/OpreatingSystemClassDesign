@@ -70,7 +70,7 @@ namespace OpreatingSystemClassDesign
             }
             else
             {
-                if (GlobalVariable.MemoryQueue_LRU.Count >= 4)
+                if (GlobalVariable.MemoryQueue_LRU.Count >= MainForm.MemoryBlockNum)
                 {
                     GlobalVariable.Memory_LRU[GlobalVariable.MemoryQueue_LRU.Peek().PageFrameNum] = pageBlock.PageNum;
                     pageBlock.PageFrameNum = GlobalVariable.MemoryQueue_LRU.Dequeue().PageFrameNum;
@@ -110,7 +110,7 @@ namespace OpreatingSystemClassDesign
             else
             {
                 //页框是否已满
-                if (GlobalVariable.MemoryQueue_OPT.Count >= 4)
+                if (GlobalVariable.MemoryQueue_OPT.Count >= MainForm.MemoryBlockNum)
                 {
                     //求指令序列中,当前位置后,所有在队列中出现的页号出现的次数
                     Dictionary<int, int> count = new Dictionary<int, int>();
