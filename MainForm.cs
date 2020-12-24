@@ -537,8 +537,7 @@ namespace OpreatingSystemClassDesign
                 }
                 else
                 {
-                    int replacedBlock = Convert.ToInt32(GDV.Rows[blockNum - 1].Cells[count_Type - 2].Value.ToString(), 16);
-                    sb.Append($"替换了{replacedBlock}，");
+                    sb.Append($"替换了{GDV.Rows[blockNum - 1].Cells[count_Type - 2].Value}，");
                 }
             }
             else
