@@ -81,6 +81,13 @@ namespace OpreatingSystemClassDesign
             DataGridView[] ls = { dataGridView_FIFO, dataGridView_LRU, dataGridView_OPT };
             foreach (var item in ls)
             {
+                //https://www.cnblogs.com/samshen1991/p/7298422.html
+                //设置双缓冲解决表格刷新过慢的问题
+                Type type = item.GetType();
+                System.Reflection.PropertyInfo pi = type.GetProperty("DoubleBuffered",
+                        System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+                pi.SetValue(item, true, null);
+
                 //根据默认添加驻留内存的页面
                 DataGridViewColumn column = new DataGridViewColumn()
                 {
@@ -486,9 +493,61 @@ namespace OpreatingSystemClassDesign
                 {
                     pageFaultCount++;
                 }
-                timeSpent += ThreadSleepByArithmeticResult(flag);
+                int threadSleepTime = ThreadSleepByArithmeticResult(flag);
+                timeSpent += threadSleepTime;
+                AddToolTip2Cells(dataGridView_FIFO, Models.ArithmeticType.FIFO, flag, blockNum, threadSleepTime);
             }
         }
+        /// <summary>
+        /// 向单元格添加提示文本
+        /// </summary>
+        /// <param name="GDV">需要进行添加的表格</param>
+        /// <param name="type">算法类型</param>
+        /// <param name="flag">是否缺页</param>
+        /// <param name="blockNum">被替换的页框号</param>
+        /// <param name="threadSleepTime">本次线程休眠时间</param>
+        private void AddToolTip2Cells(DataGridView GDV, Models.ArithmeticType type, bool flag, int blockNum, int threadSleepTime)
+        {
+            int count_Type = 0;
+            switch (type)
+            {
+                case Models.ArithmeticType.FIFO:
+                    count_Type = count_FIFO;
+                    break;
+                case Models.ArithmeticType.LRU:
+                    count_Type = count_LRU;
+                    break;
+                case Models.ArithmeticType.OPT:
+                    count_Type = count_OPT;
+                    break;
+                case Models.ArithmeticType.All:
+                    break;
+            }
+            StringBuilder sb = new StringBuilder();
+            if (flag)
+            {
+                sb.Append($"发生缺页，");
+                if (blockNum == 0)
+                {
+                    sb.Append("添加了新的一块，");
+                }
+                else
+                {
+                    int replacedBlock = Convert.ToInt32(GDV.Rows[blockNum - 1].Cells[count_Type - 2].Value.ToString(), 16);
+                    sb.Append($"替换了{replacedBlock}，");
+                }
+            }
+            else
+            {
+                sb.Append("未发生缺页，");
+            }
+            sb.Append($"共耗时 {threadSleepTime} ms");
+            for (int i = 0; i < MemoryBlockNum; i++)
+            {
+                GDV.Rows[i].Cells[count_Type - 1].ToolTipText = sb.ToString();
+            }
+        }
+
         private void MakeLRU(out int pageFaultCount, out int timeSpent)
         {
             pageFaultCount = 0;
@@ -502,7 +561,9 @@ namespace OpreatingSystemClassDesign
                 {
                     pageFaultCount++;
                 }
-                timeSpent += ThreadSleepByArithmeticResult(flag);
+                int threadSleepTime = ThreadSleepByArithmeticResult(flag);
+                timeSpent += threadSleepTime;
+                AddToolTip2Cells(dataGridView_LRU, Models.ArithmeticType.LRU, flag, blockNum, threadSleepTime);
             }
         }
         private void MakeOPT(out int pageFaultCount, out int timeSpent)
@@ -518,7 +579,9 @@ namespace OpreatingSystemClassDesign
                 {
                     pageFaultCount++;
                 }
-                timeSpent += ThreadSleepByArithmeticResult(flag);
+                int threadSleepTime = ThreadSleepByArithmeticResult(flag);
+                timeSpent += threadSleepTime;
+                AddToolTip2Cells(dataGridView_OPT, Models.ArithmeticType.OPT, flag, blockNum, threadSleepTime);
             }
         }
         /// <summary>
@@ -860,6 +923,7 @@ namespace OpreatingSystemClassDesign
         {
             SaveConfig();
             MessageBox.Show("保存完毕");
+            System.Diagnostics.Process.Start(Application.StartupPath);
         }
         /// <summary>
         /// 写配置,文件名为当前时间,格式为json
@@ -943,6 +1007,15 @@ namespace OpreatingSystemClassDesign
                         {
                             sb.Append("r");
                         }
+                        sb.Append("|");
+                        if (string.IsNullOrEmpty(item.ToolTipText))
+                        {
+                            sb.Append(" ");
+                        }
+                        else
+                        {
+                            sb.Append(item.ToolTipText);
+                        }
                         sb.Append("-");
                     }
                     sb.Remove(sb.Length - 1, 1);
@@ -1017,9 +1090,11 @@ namespace OpreatingSystemClassDesign
                     DataGridViewRow row = new DataGridViewRow();
                     foreach (var content in item.ToString().Split('-'))
                     {
+                        string toolTip = content.Split('|')[1];
                         DataGridViewTextBoxCell cell = new DataGridViewTextBoxCell
                         {
-                            Value = content.Replace("r", ""),
+                            Value = content.Substring(0, content.IndexOf('|')).Replace("r", ""),
+                            ToolTipText = toolTip
                         };
                         //高亮字符
                         cell.Style.ForeColor = content.Contains("r") ? Color.Red : Color.Black;
