@@ -78,6 +78,10 @@ namespace OpreatingSystemClassDesign
         #endregion
         private void MainForm_Load(object sender, EventArgs e)
         {
+            if (!Directory.Exists("SaveFiles"))
+            {
+                Directory.CreateDirectory("SaveFiles");
+            }
             DataGridView[] ls = { dataGridView_FIFO, dataGridView_LRU, dataGridView_OPT };
             foreach (var item in ls)
             {
@@ -105,7 +109,7 @@ namespace OpreatingSystemClassDesign
             }
             //取消单元格的选中
             CellsUnselected();
-            openFileDialog_Main.InitialDirectory = Application.StartupPath;
+            openFileDialog_Main.InitialDirectory = Path.Combine(Application.StartupPath, "SaveFiles");
         }
         /// <summary>
         /// 取消单元格的选中
@@ -921,14 +925,15 @@ namespace OpreatingSystemClassDesign
 
         private void 保存ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveConfig();
+            string filePath = Path.Combine(openFileDialog_Main.InitialDirectory, $"{DateTime.Now:yyyy-MM-dd HH-mm-ss}.OSCD");
+            SaveConfig(filePath);
             MessageBox.Show("保存完毕");
-            System.Diagnostics.Process.Start(Application.StartupPath);
+            System.Diagnostics.Process.Start(openFileDialog_Main.InitialDirectory);
         }
         /// <summary>
         /// 写配置,文件名为当前时间,格式为json
         /// </summary>
-        private void SaveConfig()
+        private void SaveConfig(string filePath)
         {
             JObject json = new JObject
             {
@@ -1023,7 +1028,7 @@ namespace OpreatingSystemClassDesign
                 }
                 index++;
             }
-            File.WriteAllText($"{DateTime.Now:yyyy-MM-dd HH-mm-ss}.OSCD", json.ToString());
+            File.WriteAllText(filePath, json.ToString());
         }
 
         private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1105,6 +1110,15 @@ namespace OpreatingSystemClassDesign
                 //显示缺页率等内容的标签
                 labelLs[i].Visible = json[nameLs[i]]["ResultVisable"].ToObject<bool>();
                 labelLs[i].Text = json[nameLs[i]]["ResultContent"].ToString();
+            }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show("确认要关闭吗？未保存的工作将全部丢失", "提示"
+                , MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No)
+            {
+                e.Cancel = true;
             }
         }
     }
