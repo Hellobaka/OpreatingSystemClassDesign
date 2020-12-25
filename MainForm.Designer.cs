@@ -41,6 +41,7 @@ namespace OpreatingSystemClassDesign
             this.RandomGenerate = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.TimeSetting_GroupBox = new System.Windows.Forms.GroupBox();
+            this.checkBox_TLB = new System.Windows.Forms.CheckBox();
             this.TLBTrack = new System.Windows.Forms.TrackBar();
             this.label6 = new System.Windows.Forms.Label();
             this.TLBTime_TextBox = new System.Windows.Forms.TextBox();
@@ -175,6 +176,7 @@ namespace OpreatingSystemClassDesign
             // 
             // TimeSetting_GroupBox
             // 
+            this.TimeSetting_GroupBox.Controls.Add(this.checkBox_TLB);
             this.TimeSetting_GroupBox.Controls.Add(this.TLBTrack);
             this.TimeSetting_GroupBox.Controls.Add(this.label6);
             this.TimeSetting_GroupBox.Controls.Add(this.TLBTime_TextBox);
@@ -192,10 +194,23 @@ namespace OpreatingSystemClassDesign
             this.TimeSetting_GroupBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.TimeSetting_GroupBox.Name = "TimeSetting_GroupBox";
             this.TimeSetting_GroupBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.TimeSetting_GroupBox.Size = new System.Drawing.Size(432, 175);
+            this.TimeSetting_GroupBox.Size = new System.Drawing.Size(432, 220);
             this.TimeSetting_GroupBox.TabIndex = 1;
             this.TimeSetting_GroupBox.TabStop = false;
             this.TimeSetting_GroupBox.Text = "时间设置";
+            // 
+            // checkBox_TLB
+            // 
+            this.checkBox_TLB.AutoSize = true;
+            this.checkBox_TLB.Checked = true;
+            this.checkBox_TLB.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_TLB.Location = new System.Drawing.Point(10, 172);
+            this.checkBox_TLB.Name = "checkBox_TLB";
+            this.checkBox_TLB.Size = new System.Drawing.Size(99, 21);
+            this.checkBox_TLB.TabIndex = 12;
+            this.checkBox_TLB.Text = "是否使用快表";
+            this.checkBox_TLB.UseVisualStyleBackColor = true;
+            this.checkBox_TLB.CheckedChanged += new System.EventHandler(this.checkBox_TBL_CheckedChanged);
             // 
             // TLBTrack
             // 
@@ -245,13 +260,13 @@ namespace OpreatingSystemClassDesign
             this.MemoryTrack.Location = new System.Drawing.Point(170, 71);
             this.MemoryTrack.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MemoryTrack.Maximum = 500;
-            this.MemoryTrack.Minimum = 5;
+            this.MemoryTrack.Minimum = 50;
             this.MemoryTrack.Name = "MemoryTrack";
             this.MemoryTrack.Size = new System.Drawing.Size(254, 45);
             this.MemoryTrack.TabIndex = 7;
             this.MemoryTrack.TickFrequency = 50;
             this.MemoryTrack.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.MemoryTrack.Value = 5;
+            this.MemoryTrack.Value = 50;
             this.MemoryTrack.Scroll += new System.EventHandler(this.PageFaultTrack_Scroll);
             // 
             // label4
@@ -270,7 +285,7 @@ namespace OpreatingSystemClassDesign
             this.MemoryTime_TextBox.Name = "MemoryTime_TextBox";
             this.MemoryTime_TextBox.Size = new System.Drawing.Size(38, 23);
             this.MemoryTime_TextBox.TabIndex = 5;
-            this.MemoryTime_TextBox.Text = "5";
+            this.MemoryTime_TextBox.Text = "50";
             this.MemoryTime_TextBox.TextChanged += new System.EventHandler(this.PageFaultTime_TextChanged);
             this.MemoryTime_TextBox.Leave += new System.EventHandler(this.PageFaultTime_Leave);
             // 
@@ -342,11 +357,11 @@ namespace OpreatingSystemClassDesign
             this.OtherSettings_GroupBox.Controls.Add(this.MemoryBlockNum_TextBox);
             this.OtherSettings_GroupBox.Controls.Add(this.label13);
             this.OtherSettings_GroupBox.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.OtherSettings_GroupBox.Location = new System.Drawing.Point(999, 222);
+            this.OtherSettings_GroupBox.Location = new System.Drawing.Point(999, 267);
             this.OtherSettings_GroupBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.OtherSettings_GroupBox.Name = "OtherSettings_GroupBox";
             this.OtherSettings_GroupBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.OtherSettings_GroupBox.Size = new System.Drawing.Size(432, 203);
+            this.OtherSettings_GroupBox.Size = new System.Drawing.Size(432, 197);
             this.OtherSettings_GroupBox.TabIndex = 12;
             this.OtherSettings_GroupBox.TabStop = false;
             this.OtherSettings_GroupBox.Text = "杂项设定";
@@ -700,11 +715,11 @@ namespace OpreatingSystemClassDesign
             this.ThreadSwitch_GroupBox.Controls.Add(this.panel_ControlOPT);
             this.ThreadSwitch_GroupBox.Controls.Add(this.panel_ControlLRU);
             this.ThreadSwitch_GroupBox.Controls.Add(this.panel_ControlFIFO);
-            this.ThreadSwitch_GroupBox.Location = new System.Drawing.Point(999, 433);
+            this.ThreadSwitch_GroupBox.Location = new System.Drawing.Point(999, 472);
             this.ThreadSwitch_GroupBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ThreadSwitch_GroupBox.Name = "ThreadSwitch_GroupBox";
             this.ThreadSwitch_GroupBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ThreadSwitch_GroupBox.Size = new System.Drawing.Size(425, 449);
+            this.ThreadSwitch_GroupBox.Size = new System.Drawing.Size(425, 410);
             this.ThreadSwitch_GroupBox.TabIndex = 14;
             this.ThreadSwitch_GroupBox.TabStop = false;
             this.ThreadSwitch_GroupBox.Text = "线程开关";
@@ -1047,5 +1062,6 @@ namespace OpreatingSystemClassDesign
         private System.Windows.Forms.ToolStripMenuItem 保存ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
+        private System.Windows.Forms.CheckBox checkBox_TLB;
     }
 }

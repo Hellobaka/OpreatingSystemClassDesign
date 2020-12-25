@@ -49,6 +49,7 @@ namespace OpreatingSystemClassDesign
         /// 启动全部线程的标志
         /// </summary>
         private bool AllThread_Flag = false;
+        private static bool TLBUsing_Flag = true;
         #endregion
         #region ---公有静态变量---
         /// <summary>
@@ -594,15 +595,16 @@ namespace OpreatingSystemClassDesign
         /// <returns>本次休眠时长</returns>
         private static int ThreadSleepByArithmeticResult(bool flag)
         {
+            int TLBTimeBlock = TLBUsing_Flag ? TLBTime : MemoryTime;
             int timeSpent = 0;
+            Thread.Sleep(TLBTimeBlock);
             Thread.Sleep(MemoryTime);
-            Thread.Sleep(TLBTime);
-            timeSpent += MemoryTime + TLBTime;
+            timeSpent += MemoryTime + TLBTimeBlock;
             if (flag)//缺页
             {
                 Thread.Sleep(PageFaultTime);
+                Thread.Sleep(TLBTimeBlock);
                 Thread.Sleep(MemoryTime);
-                Thread.Sleep(TLBTime);
 
                 timeSpent += PageFaultTime;
                 timeSpent += MemoryTime + TLBTime;
@@ -940,7 +942,8 @@ namespace OpreatingSystemClassDesign
                     {
                         {"PageFault",PageFaultTime },
                         {"MemoryTime",MemoryTime },
-                        {"TLBTime",TLBTime }
+                        {"TLBTime",TLBTime },
+                        {"TLBUsing",checkBox_TLB.Checked }
                     }
                 },
                 {
@@ -1059,6 +1062,7 @@ namespace OpreatingSystemClassDesign
             PageFaultTime_TextBox.Text = json["TimeSettings"]["PageFault"].ToString();
             MemoryTime_TextBox.Text = json["TimeSettings"]["MemoryTime"].ToString();
             TLBTime_TextBox.Text = json["TimeSettings"]["TLBTime"].ToString();
+            checkBox_TLB.Checked = json["TimeSettings"]["TLBUsing"].ToObject<bool>();
             //杂项设定部分
             MemoryBlockNum_TextBox.Text = json["OtherSettings"]["MemoryBlockNum"].ToString();
             GeneratorNum_TextBox.Text = json["OtherSettings"]["GeneratorNum"].ToString();
@@ -1119,6 +1123,11 @@ namespace OpreatingSystemClassDesign
             {
                 e.Cancel = true;
             }
+        }
+
+        private void checkBox_TBL_CheckedChanged(object sender, EventArgs e)
+        {
+            TLBUsing_Flag = checkBox_TLB.Checked;
         }
     }
 }
