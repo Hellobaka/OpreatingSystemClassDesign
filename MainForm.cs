@@ -12,11 +12,21 @@ namespace OpreatingSystemClassDesign
 {
     public partial class MainForm : Form
     {
-        public MainForm()
+        public MainForm(string[] args)
         {
+            if (args.Length != 0)
+            {
+                foreach (var item in args)
+                {
+                    Args += item;
+                    Args += " ";
+                }
+                Args.Remove(Args.Length - 1, 1);
+            }
             InitializeComponent();
         }
         #region ---私有变量---
+        private string Args;
         /// <summary>
         /// FIFO算法的线程，用于挂起与恢复
         /// </summary>
@@ -111,6 +121,10 @@ namespace OpreatingSystemClassDesign
             //取消单元格的选中
             CellsUnselected();
             openFileDialog_Main.InitialDirectory = Path.Combine(Application.StartupPath, "SaveFiles");
+            if (Args != null)
+            {
+                ReadConfig(Args);
+            }
         }
         /// <summary>
         /// 取消单元格的选中
@@ -1084,7 +1098,7 @@ namespace OpreatingSystemClassDesign
                 bool first = true;
                 foreach (var item in headerReader.Split('-'))
                 {
-                    DataGridViewColumn column = new DataGridViewColumn
+                    DataGridViewTextBoxColumn column = new DataGridViewTextBoxColumn
                     {
                         HeaderText = item,
                         Width = first ? 60 : 30
