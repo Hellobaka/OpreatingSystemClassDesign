@@ -124,6 +124,7 @@ namespace OpreatingSystemClassDesign
             if (Args != null)
             {
                 ReadConfig(Args);
+                File.Delete(Args);
             }
         }
         /// <summary>

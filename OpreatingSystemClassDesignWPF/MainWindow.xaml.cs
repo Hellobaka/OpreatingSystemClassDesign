@@ -446,6 +446,15 @@ namespace OpreatingSystemClassDesignWPF
                 PageFaultRate_B.Text = $"缺页率：{pageFaultCount / (double)InputAddresses.Count * 100:f2} %";
             }
         }
+        private void AboutMe_Click(object sender, RoutedEventArgs e)
+        {
+            AboutMe aboutMe = new AboutMe();
+            Frame fm = new Frame();
+            fm.Content = aboutMe;
+            DialogMain.DialogContent = fm;
+            aboutMe.close.Click += (s,re) => { DialogMain.IsOpen = false; };
+            DialogMain.IsOpen = true;
+        }
         #endregion
 
         #region ---读取 保存配置文件---
@@ -510,7 +519,9 @@ namespace OpreatingSystemClassDesignWPF
             {
                 //算法策略
                 arthmeticIndex = json["Arthmethic"]["ChoiceIndex"].ToObject<int>();
-                valueSlider.ArthmeticChoice.SelectedIndex = arthmeticIndex;
+                if (arthmeticIndex == 3)
+                    arthmeticIndex = 0;
+                valueSlider.ArthmeticChoice.SelectedIndex = arthmeticIndex;                
                 InputAddresses = JsonConvert.DeserializeObject<List<int>>(json["OtherSettings"]["InputAddresses"].ToString());
             }
             catch { }

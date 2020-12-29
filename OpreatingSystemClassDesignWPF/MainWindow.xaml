@@ -284,7 +284,6 @@
                             <materialDesign:PackIcon Kind="ContentSave" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="另存为" />
                     <Separator />
                     <MenuItem Header="退出"
                               InputGestureText="Alt+F4"
@@ -294,6 +293,16 @@
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
+                <MenuItem Header="关于"
+                          d:IsHidden="True">
+                    <MenuItem Header="关于"
+                              Click="AboutMe_Click">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Github" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+
             </Menu>
         </Grid>
     </materialDesign:DialogHost>

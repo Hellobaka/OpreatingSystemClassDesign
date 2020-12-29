@@ -263,7 +263,7 @@ namespace OpreatingSystemClassDesignWPF
         /// </summary>
         public static void ClearDataGridExceptHeader()
         {
-            for (int i = 1; i <= GlobalVariable.MemoryBlockNum + 1; i++)
+            for (int i = 1; i <= StackPanel_Main.Children.Count -1 ; i++)
             {
                 Helper.ClearStackPanelContent(StackPanel_Main.Children[i] as StackPanel);
             }
