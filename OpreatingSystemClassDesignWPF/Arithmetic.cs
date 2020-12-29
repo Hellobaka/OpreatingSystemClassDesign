@@ -3,13 +3,16 @@ using System.Linq;
 
 namespace OpreatingSystemClassDesignWPF
 {
+    /// <summary>
+    /// 算法核心类
+    /// </summary>
     public static class Arithmetic
     {
         /// <summary>
         /// 对内存队列进行先进先出（FIFO）置换
         /// </summary>
         /// <param name="memoryAddress">要进行操作的内存地址</param>
-        /// <param name="blockNum">被置换出的内存页号</param>
+        /// <param name="blockNum">被置换出的页框号,未发生中断时这个值为该值位于的页框号</param>
         /// <returns>是否发生缺页中断</returns>
         public static bool MakeFIFO(int memoryAddress,out int blockNum)
         {
@@ -54,8 +57,9 @@ namespace OpreatingSystemClassDesignWPF
         /// <summary>
         /// 对内存队列进行最久未使用（LRU）置换
         /// </summary>
-        /// <param name="memoryAddress"></param>
-        /// <returns></returns>
+        /// <param name="memoryAddress">需要进行操作的地址</param>
+        /// <param name="blockNum">被置换出的页框号,未发生中断时这个值为该值位于的页框号</param>
+        /// <returns>是否发生缺页中断</returns>
         public static bool MakeLRU(int memoryAddress,out int blockNum)
         {
             MemoryBlock pageBlock = new MemoryBlock()
@@ -96,8 +100,10 @@ namespace OpreatingSystemClassDesignWPF
         /// <summary>
         /// 对内存队列进行最佳置换（OPT）置换
         /// </summary>
-        /// <param name="memoryAddress"></param>
-        /// <returns></returns>
+        /// <param name="inputAddress">内存地址序列，用于后续出现次数排序</param>
+        /// <param name="index">当前操作数所处的位置</param>
+        /// <param name="blockNum">被置换出的页框号,未发生中断时这个值为该值位于的页框号</param>
+        /// <returns>是否发生缺页中断</returns>
         public static bool MakeOPT(List<int> inputAddress, int index,out int blockNum)
         {
             MemoryBlock pageBlock = new MemoryBlock()

@@ -1115,11 +1115,18 @@ namespace OpreatingSystemClassDesign
                         string toolTip = content.Split('|')[1];
                         DataGridViewTextBoxCell cell = new DataGridViewTextBoxCell
                         {
-                            Value = content.Substring(0, content.IndexOf('|')).Replace("r", ""),
+                            Value = content.Substring(0, content.IndexOf('|')).Replace("r", "").Replace("v",""),
                             ToolTipText = toolTip
                         };
                         //高亮字符
-                        cell.Style.ForeColor = content.Contains("r") ? Color.Red : Color.Black;
+                        if (content.Contains("r"))
+                        {
+                            cell.Style.ForeColor = Color.Red;
+                        }
+                        else if (content.Contains("r"))
+                        {
+                            cell.Style.ForeColor = Color.Violet;
+                        }
                         row.Cells.Add(cell);
                     }
                     ls[i].Rows.Add(row);

@@ -15,12 +15,30 @@ namespace OpreatingSystemClassDesignWPF
         public int PageNum;
     }
 
+    /// <summary>
+    /// 全局变量类 内容为各种控制变量
+    /// </summary>
     public static class GlobalVariable
     {
+        /// <summary>
+        /// 表示数字数值变化的委托
+        /// </summary>
         public delegate void NumberChanged(object sender, EventArgs e);
+        /// <summary>
+        /// 普通数值发生改变事件
+        /// </summary>
         public static event NumberChanged OnNumChange;
+        /// <summary>
+        /// 驻留内存页块数量发生改变事件
+        /// </summary>
         public static event NumberChanged OnMemoryBlockNumChange;
+        /// <summary>
+        /// 算法类型改变事件
+        /// </summary>
         public static event NumberChanged OnArthmeticChange;
+        /// <summary>
+        /// 使用快表状态变更事件
+        /// </summary>
         public static event NumberChanged OnTLBUsingStateChange;
 
         #region ---公有静态变量---
@@ -36,6 +54,7 @@ namespace OpreatingSystemClassDesignWPF
                 if (pageFaultTime != value)
                 {
                     pageFaultTime = value;
+                    //触发事件
                     OnNumChange("PageFaultTime", new EventArgs());
                 }
             }
@@ -97,6 +116,7 @@ namespace OpreatingSystemClassDesignWPF
         /// 随机取地址范围上限
         /// </summary>
         public static int AddressMax = 0xFFFF;
+
         private static bool tLBUsingState = true;
 
         /// <summary>
@@ -119,6 +139,9 @@ namespace OpreatingSystemClassDesignWPF
         /// </summary>
         public static bool GenerateLogicAddress = false;
         private static Models.ArithmeticType arithmeticType = Models.ArithmeticType.FIFO;
+        /// <summary>
+        /// 当前所选择的算法类型
+        /// </summary>
         public static Models.ArithmeticType ChosenArthmetic
         {
             get => arithmeticType;
@@ -131,7 +154,6 @@ namespace OpreatingSystemClassDesignWPF
                 }
             }
         }
-
         #endregion
 
         /// <summary>

@@ -5,7 +5,7 @@ using System.Windows.Controls.Primitives;
 namespace OpreatingSystemClassDesignWPF
 {
     /// <summary>
-    /// ValueSlider.xaml 的交互逻辑
+    /// 自定义控件交互逻辑
     /// </summary>
     public partial class ValueSlider : UserControl
     {
@@ -13,14 +13,20 @@ namespace OpreatingSystemClassDesignWPF
         {
             InitializeComponent();
         }
+        /// <summary>
+        /// 窗口加载完成标志,为false时读取控件内容会引起异常
+        /// </summary>
         bool ControlLoaded = false;
+        //滑块与文本框之间通过TwoWay的Binding连接
         private void AddressMax_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (ControlLoaded is false)
                 return;
             AddressMax_TextBox.Text = ((int)AddressMax_Slider.Value).ToString("X2");
         }
-
+        /// <summary>
+        /// 十六进制地址同步
+        /// </summary>
         private void AddressMax_TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (ControlLoaded is false)
@@ -47,7 +53,9 @@ namespace OpreatingSystemClassDesignWPF
             (ArthmeticChoice.Items[3] as ListBoxItem).Tag = Models.ArithmeticType.All;
             ControlLoaded = true;
         }
-
+        /// <summary>
+        /// 文本更新的同时将全局变量内的数据更新
+        /// </summary>
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = sender as TextBox;
